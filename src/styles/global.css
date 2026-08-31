@@ -1,0 +1,24 @@
+/* src/styles/global.css */
+:root {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --accent-color: #ffaa00;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

@@ -1,0 +1,53 @@
+---
+// src/layouts/BaseLayout.astro
+import '../styles/global.css'; // Подключаем глобальные стили
+import Navbar from '../components/Navbar.astro';
+
+// Типизируем пропсы (если используете TypeScript)
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Maid</title>
+  </head>
+  <body>
+    <Navbar /> <!-- Навбар будет на всех страницах, использующих этот Layout -->
+    
+    <main class="container">
+      <slot /> <!-- Сюда попадет контент из файлов в папке pages -->
+    </main>
+
+    <footer>
+      <!-- Тут можно добавить футер -->
+      <p>© 2026 Maid</p>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    min-height: 80vh;
+    padding-top: 1rem;
+  }
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  @media(width < 1280px) {
+    .container {
+      width: 100%;
+      padding: 1rem;
+    }
+  }
+</style>

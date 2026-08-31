@@ -1,0 +1,94 @@
+---
+// src/components/Navbar.astro
+// Здесь пишется серверный JS/TS код. В браузере его не будет.
+const links = [
+  { name: 'Главная', url: '/' },
+  { name: 'Новости', url: '/about' },
+  { name: 'Вики', url: '/rules' },
+];
+---
+
+<nav class="navbar">
+  <div class="flexbox">
+    <div class="logo">
+      <a href="/">Maid</a>
+    </div>
+    <ul class="nav-links">
+      {links.map((link) => (
+        <li><a href={link.url} class="link">{link.name}</a></li>
+      ))}
+    </ul>
+  </div>
+  <div>
+    <div>
+      <a href="https://discord.gg/gU2XuPw2Z">
+        <img src="/discord-icon.svg" style="width: 32px;">
+      </a>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Стили здесь локальные (Scoped). Они применятся только к этому Navbar */
+  .navbar {
+    /*max-width:1280px; */
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 32px 32px;
+    transition:
+      width 1s,
+      border-left 0.5s,
+      border-right 0.5s,
+      border-radius 2s;
+  }
+  @media(width < 1280px) {
+    .navbar {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: rgba(255, 255, 255, 0.05);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      border-right: 1px solid rgba(255, 255, 255, 0);
+      border-left: 1px solid rgba(255, 255, 255, 0);
+      border-radius: 0;
+    }
+  }
+  .flexbox {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+  }
+  .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent-color);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-links a:hover {
+    color: var(--accent-color);
+  }
+  .link {
+    font-weight: 300;
+  }
+</style>

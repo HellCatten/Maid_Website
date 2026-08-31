@@ -1,0 +1,37 @@
+---
+// src/pages/index.astro
+import BaseLayout from '../layouts/Layout.astro';
+---
+
+<BaseLayout title="Главная">
+  <section class="hero">
+    <h1>Добро пожаловать на лучший игровой сервер</h1>
+    <p>Начни играть прямо сейчас и получи стартовый бонус!</p>
+    <button class="play-btn">Начать игру</button>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    text-align: center;
+    margin-top: 4rem;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+  }
+
+  .play-btn {
+    margin-top: 2rem;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: var(--accent-color);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+</style>
