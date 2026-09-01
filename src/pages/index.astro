@@ -1,37 +1,85 @@
 ---
 // src/pages/index.astro
 import BaseLayout from '../layouts/Layout.astro';
+import Changelog from '../components/Changelog.jsx';
+
+import fs from 'node:fs';
+import { load } from 'js-yaml';
+
+interface ChangeItem {
+  type: string;
+  message: string;
+}
+
+interface ChangelogEntry {
+  id: number;
+  author: string;
+  time: string;
+  changes: ChangeItem[];
+}
+
+interface ChangelogFile {
+  Name?: string;
+  Order?: number;
+  Entries: ChangelogEntry[];
+}
+
+// 1. Читаем файл при сборке
+// В Docker файл будет лежать именно тут благодаря wget
+let changelogData: ChangelogFile = { Entries: [] };
+
+try {
+  const fileContents = fs.readFileSync('src/data/changelog.yml', 'utf8');
+  const parsed = load(fileContents) as ChangelogFile; // Приводим тип
+  
+  if (parsed && parsed.Entries) {
+    changelogData = parsed;
+  }
+} catch (e) {
+  console.warn("Файл changelog.yml не найден. Используются пустые данные.");
+}
+
+// 2. Сортируем записи от новых к старым (по дате) и берем только 10 последних
+const latestEntries = changelogData.Entries
+  .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+  .slice(0, 10); // Обрезаем массив, чтобы не грузить 1200 строк на клиент!
 ---
 
 <BaseLayout title="Главная">
-  <section class="hero">
-    <h1>Добро пожаловать на лучший игровой сервер</h1>
-    <p>Начни играть прямо сейчас и получи стартовый бонус!</p>
-    <button class="play-btn">Начать игру</button>
-  </section>
+  <div class="homepage-content">
+    
+    <!-- Основной контент главной страницы -->
+    <section class="hero">
+      <h1>Добро пожаловать на проект!</h1>
+      <p>Тут какой-то текст, баннеры, кнопки.</p>
+    </section>
+
+    <!-- Наш React компонент Changelog -->
+    <!-- client:idle загрузит JS для него, когда браузер будет свободен -->
+    <aside class="sidebar">
+      <Changelog entries={latestEntries} client:idle />
+    </aside>
+    
+  </div>
 </BaseLayout>
 
+
 <style>
-  .hero {
-    text-align: center;
-    margin-top: 4rem;
-  }
-  
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: var(--accent-color);
+  .homepage-content {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 2rem;
   }
 
-  .play-btn {
-    margin-top: 2rem;
-    padding: 1rem 2rem;
-    font-size: 1.2rem;
-    background-color: var(--accent-color);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+  .hero {
+    flex: 1; /* Занимает оставшееся пространство */
+  }
+
+  /* Если экран маленький, блок спрыгнет вниз */
+  @media (max-width: 1024px) {
+    .homepage-content {
+      flex-direction: column;
+    }
   }
 </style>

@@ -1,0 +1,9 @@
+services:
+  astro-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: maid_website
+    ports:
+      - "8080:80"
+    restart: unless-stopped

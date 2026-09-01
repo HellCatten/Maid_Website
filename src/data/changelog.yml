@@ -1,0 +1,29 @@
+Name: Maidlog
+Order: -1
+Entries:
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Звуки радиосвязи
+  id: 109
+  time: '2026-08-30T10:46:56.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Предметы артефакты теперь происходят гораздо реже
+  id: 110
+  time: '2026-09-01T08:07:47.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Fix
+      message: Теперь лектер видно в руках
+  id: 111
+  time: '2026-09-01T08:15:03.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Tweak
+      message: В детекшкафе изменена гарнитура на полноразмерную гарнитуру.
+    - type: Fix
+      message: R6 боргов и зачарованная винтовка теперь имеют спрайты из старого билда.
+  id: 112
+  time: '2026-09-01T10:11:53.0000000+00:00'

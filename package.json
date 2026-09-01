@@ -12,15 +12,21 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/react": "^6.0.4",
+    "@astrojs/react": "^6.0.5",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.5",
     "astro": "^7.2.9",
+    "fs": "^0.0.1-security",
+    "js-yaml": "^5.4.1",
     "nvm": "^0.0.4",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^26.4.0"
   }
 }
