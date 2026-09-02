@@ -102,3 +102,25 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+/* Кастомизация скроллбара */
+.scrollArea::-webkit-scrollbar { 
+  width: 6px; 
+}
+
+/* Добавляем прозрачный трек с отступами от краев */
+.scrollArea::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 0.25rem; /* Отступает немного от заголовка */
+  margin-bottom: 0.5rem; /* Отступает от нижнего края, не ломая border-radius */
+}
+
+.scrollArea::-webkit-scrollbar-thumb { 
+  background: rgba(255, 255, 255, 0.2); 
+  border-radius: 4px; 
+}
+
+/* (По желанию) при наведении скроллбар становится чуть ярче */
+.scrollArea::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
