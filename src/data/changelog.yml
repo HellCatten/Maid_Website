@@ -1,6 +1,1200 @@
 Name: Maidlog
 Order: -1
 Entries:
+- author: Warete
+  changes:
+    - message: Changelog проекта Maid! Да!
+      type: Add
+  id: 1
+  time: '2025-10-02T18:44:20.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Fix
+      message: IC имена теперь могут содержать кирилицу
+    - type: Fix
+      message: Теперь клиент закрывается без краша
+    - type: Tweak
+      message: Гайдбук в лобби теперь откроется лишь раз для новых игроков
+    - type: Remove
+      message: Серверная валюта
+    - type: Remove
+      message: Эмоуты пердежа
+  id: 2
+  time: '2025-10-01T09:11:24.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Remove
+      message: Некоторые композиции из лобби
+    - type: Tweak
+      message: Спрайты шлюзов и их подсветка
+    - type: Tweak
+      message: Спрайты некоторых предметов
+    - type: Tweak
+      message: Русская озвучка объявлений
+    - type: Tweak
+      message: Выборка карт была урезана до 4-ёх
+  id: 3
+  time: '2025-10-02T18:44:20.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Tweak
+      message: Некоторые объекты со "странным" содержимым исчезли с карт.
+    - type: Remove
+      message: Детекторы контрабанды.
+    - type: Remove
+      message: Пояса Дзюдо из снаряжения и шкафов СБ.
+    - type: Remove
+      message: Представитель НТ был уволен в вдогонку синему щиту.
+  id: 4
+  time: '2025-10-03T22:15:35.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Add
+      message: Новый ui
+  id: 5
+  time: '2025-10-05T15:29:16.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Tweak
+      message: Спрайты (нюка, инженерная, свет и прочее).
+    - type: Tweak
+      message: Звуки оповещений должны стать точно на русском.
+    - type: Tweak
+      message: Лом вновь помещается в карманах
+    - type: Remove
+      message: Вступ. сообщение в AH.
+  id: 6
+  time: '2025-10-13T21:49:53.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Возвращение великой коробочки.
+    - type: Add
+      message: Фурнитура (диваны, скамейки).
+    - type: Tweak
+      message: Ограничение наложения труб друг на друга - отключено.
+    - type: Tweak
+      message: >-
+        Возвращён шаттл утилизаторов с платой экспедиций и платы управления у
+        КМ'а.
+    - type: Tweak
+      message: Некоторые спрайты.
+  id: 7
+  time: '2025-10-17T18:19:35.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Tweak
+      message: Вор выключен.
+    - type: Tweak
+      message: Таймер на спавн шаттлов с ивентов был увеличен.
+    - type: Add
+      message: Старые причёски.
+  id: 8
+  time: '2025-10-26T16:32:33.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Tweak
+      message: Отключение возможности выбора половины рас для игры.
+    - type: Tweak
+      message: Ограничения рас при выборе ролей (СБ, Командные роли).
+    - type: Tweak
+      message: Некоторые из вещей в Аплинке (Синдиката/ЯО) - были отключены.
+  id: 9
+  time: '2025-11-20T10:22:53.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Tweak
+      message: '[MAP] Приколы WonderBox''а были поправлены'
+    - type: Tweak
+      message: Наборы выживания вновь адекватные.
+    - type: Tweak
+      message: Шаттл эвакуации более не должен вызываться автоматически.
+    - type: Tweak
+      message: Некоторые игровые ивенты/события были скорректированы.
+    - type: Fix
+      message: RGB посох вновь работает.
+  id: 10
+  time: '2025-12-01T13:00:58.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Add
+      message: TTS
+  id: 11
+  time: '2025-12-01T15:04:34.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Правила! Да!
+    - type: Add
+      message: Адекватный фон в лобби.
+    - type: Remove
+      message: SSD индикатор, ввиду забагованности.
+    - type: Tweak
+      message: Некоторые таймеры на ролях (уменьшение).
+    - type: Tweak
+      message: WonderBox вновь "починили".
+    - type: Tweak
+      message: AdminWho для всех.
+  id: 12
+  time: '2025-12-01T19:43:03.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Tweak
+      message: Рация рабоает с русскими ключами
+    - type: Tweak
+      message: Коллективные разумы работают с русскими ключами
+  id: 13
+  time: '2025-12-02T15:08:57.0000000+00:00'
+- author: RedBurningPhoenix
+  changes:
+    - type: Add
+      message: Космический закон.
+    - type: Tweak
+      message: Шаттл утилизаторов. - pahan_chiiiil
+    - type: Tweak
+      message: TTS в мир киборгов.
+  id: 14
+  time: '2025-12-02T16:54:21.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: '[MAP] Atom is back.'
+    - type: Tweak
+      message: Вес некоторых игровых ивенты.
+  id: 15
+  time: '2025-12-09T21:16:42.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Add
+      message: Апстрим 11.9 - 03.12
+    - type: Tweak
+      message: Магбуты стиндиката больше не джетпак
+    - type: Tweak
+      message: Вещмешок синдиката больше не замедляет
+    - type: Fix
+      message: Акценты работают на русском
+    - type: Fix
+      message: НИО -> РНД
+    - type: Fix
+      message: Ниан -> Моль
+  id: 16
+  time: '2025-12-10T09:11:21.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Remove
+      message: Противосингулярный Гранатомёт из шкафа СЕ.
+    - type: Remove
+      message: Медиботы более не разговорчивы.
+    - type: Remove
+      message: Дереликтовый борг.
+    - type: Remove
+      message: Теневая аномалия.
+    - type: Remove
+      message: Спринт.
+  id: 17
+  time: '2025-12-18T08:06:39.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Маршрутка на Атом.
+    - type: Add
+      message: Классические причёски.
+    - type: Tweak
+      message: Переделанный шаттл эвакуации для Вандера. - by pahan_chiiiil
+    - type: Tweak
+      message: Были затронуты "весы" игровых ивентов.
+    - type: Tweak
+      message: RampingStationEventScheduler начинает свою работу только от 30 игроков.
+    - type: Fix
+      message: Исправлено кол-во выпадающих ивентов в 2 раза.
+    - type: Remove
+      message: >-
+        Удалены ВСЕ шаттлы из ивентов, ввиду не совсем корректной работы с
+        RampingStationEventScheduler.
+  id: 18
+  time: '2025-12-18T08:30:54.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Tweak
+      message: >-
+        WonderBox, Atom и шаттл эвакуации были обновлены в честь Нового Года -
+        pahan_chiiiil.
+    - type: Tweak
+      message: Шкафы больше не плодят другие шкафы.
+    - type: Tweak
+      message: Спрайтики Плазменного баллона.
+  id: 19
+  time: '2025-12-28T16:32:54.0000000+00:00'
+- author: RedBurningPhoenix
+  changes:
+    - type: Add
+      message: Added fun! MORE MORE
+  id: 20
+  time: '2026-01-24T10:50:02.0000000+00:00'
+- author: Aviu
+  changes:
+    - type: Remove
+      message: Слайдеры размера персонажа отключены.
+  id: 21
+  time: '2026-01-24T11:09:44.0000000+00:00'
+- author: KLeymi
+  changes:
+    - type: Remove
+      message: >-
+        Пачка звуков взаимодействия с рюкзаками, тулбоксами, таблетницами и
+        прочими.
+    - type: Remove
+      message: 'Система вариативности тональности звука при употреблении и питье. '
+    - type: Tweak
+      message: Звуки открытия и закрытия шкафов.
+    - type: Tweak
+      message: Космомедипен вернулся в аварийные наборы.
+  id: 22
+  time: '2026-01-24T11:10:44.0000000+00:00'
+- author: shad4338
+  changes:
+    - type: Tweak
+      message: Спрайты кровотечения в панели состояния.
+    - type: Tweak
+      message: Спрайты беспалых перчаток теперь чёрные.
+  id: 23
+  time: '2026-01-24T11:12:44.0000000+00:00'
+- author: xsainteer
+  changes:
+    - type: Add
+      message: Нижнее бельё
+  id: 24
+  time: '2026-01-24T11:12:44.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Параллакс на Wonderbox
+    - type: Add
+      message: Кнопка возвращения в раунд
+    - type: Remove
+      message: Ghostbar / ГостБар
+  id: 25
+  time: '2026-01-24T11:15:44.0000000+00:00'
+- author: Kakava
+  changes:
+    - type: Tweak
+      message: Изменено наполнение шкафов глав отделов
+    - type: Tweak
+      message: Изменен спрайт Полноценной гарнитуры СМО
+    - type: Remove
+      message: >-
+        "Наши гениальные ученые выяснили что нужно X ударов чтобы человек умер"
+        система.
+  id: 26
+  time: '2026-01-24T11:16:44.0000000+00:00'
+- author: HSKvees
+  changes:
+    - type: Fix
+      message: Громкость TTS по умолчанию 0% -> 100%
+  id: 27
+  time: '2026-01-24T11:17:44.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Tweak
+      message: Изменен список доступных голосов
+  id: 28
+  time: '2026-02-01T13:54:19.0000000+00:00'
+- author: anonymaidys
+  changes:
+    - type: Add
+      message: >-
+        Светлые вариации комодов, тайлов дерева, столов и книжных полок на
+        станции.
+    - type: Add
+      message: На станции возвращён переработчик материалов и стулья на колёсиках.
+    - type: Remove
+      message: >-
+        Плоский резист в 10 структурного урона у модификатора урона
+        StructuralMetallicStrong.
+    - type: Remove
+      message: Изменение урона от атмосферы у протокинетическому оружия.
+    - type: Remove
+      message: Уникальные предсмертный вздох у обезьян и КПБ.
+    - type: Remove
+      message: Предсмертный вздох у мышей.
+    - type: Fix
+      message: Спрайты шлемов скафандров теперь соответствуют самим скафандрам.
+    - type: Fix
+      message: >-
+        Wonderbox: исправлены небольшие недочёты с проводами у южных солнечных
+        панелей.
+    - type: Fix
+      message: >-
+        Wonderbox: Вторая консоль управления грузовым шаттлом в карго заменена
+        на её утилизаторский аналог.
+    - type: Tweak
+      message: >-
+        Теперь все руды, которые можно найти или выбить с мобов, дают очки при
+        помещении в переработчик.
+    - type: Tweak
+      message: Урон огнетушителя 10 -> 12.
+    - type: Tweak
+      message: Кол-во топлива для ДАМа в одном баке 500 -> 1000
+    - type: Tweak
+      message: Возвращена старая карта аванпоста Ядерных Оперативников.
+    - type: Tweak
+      message: Респрайт барсетки СБ.
+    - type: Tweak
+      message: Респрайт баннеров медицинского и научного отдела.
+    - type: Tweak
+      message: >-
+        Возвращены старые спрайты одежды (в основном СБ), шлюзам и некоторым
+        другим структурам.
+  id: 29
+  time: '2026-02-01T13:55:26.0000000+00:00'
+- author: YouVeBeenLOLed
+  changes:
+    - type: Tweak
+      message: небольшие изменения содержимого торгоматов
+    - type: Tweak
+      message: 'переименование станнеров в дизейблеры '
+    - type: Tweak
+      message: переименование консолей связи в коммуникационные консоли
+  id: 30
+  time: '2026-02-08T23:47:27.0000000+00:00'
+- author: Kakava
+  changes:
+    - type: Tweak
+      message: 'Изменено наполнение шкафов отделов медицинского и службы безопасности '
+    - type: Tweak
+      message: 'Изменены спрайты: Тренч детектива, халат химика, СБТЕХ'
+  id: 31
+  time: '2026-02-09T00:23:47.0000000+00:00'
+- author: anonymaidys
+  changes:
+    - type: Add
+      message: Плата автодока в Медицинский ТехФаб.
+    - type: Remove
+      message: НаноДела из ПДА.
+    - type: Remove
+      message: Рост тараканомоли от еды.
+    - type: Remove
+      message: >-
+        Модсъюты из исследовательской консоли и шкафчиков ( Кроме парамедика,
+        так как [этот ПР](https://github.com/TheMaidDev/Maid-14/pull/22) )
+    - type: Remove
+      message: >-
+        Алтарь из бананиума и алтари связанные с культом крови из ротации
+        алтарей.
+    - type: Remove
+      message: Автомат с леденцами из ротации автоматов.
+    - type: Remove
+      message: Обёртка от леденца из ротации мусора.
+    - type: Remove
+      message: Некоторые позиции в магазине карго.
+    - type: Tweak
+      message: Иконки некоторых позиций в магазине карго.
+    - type: Tweak
+      message: >-
+        Наполнение шкафчиков отделов (Кроме мед и сб, так как [этот
+        ПР](https://github.com/TheMaidDev/Maid-14/pull/22) ).
+    - type: Fix
+      message: Теперь барсетка СБ действительно респрайтнута.
+    - type: Fix
+      message: Юбки-комбинезоны СБ больше не выдают ошибки при удержании их в руках.
+    - type: Fix
+      message: Отсутствие фальшфейера в аварийном наборе.
+  id: 32
+  time: '2026-02-09T00:50:26.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Tweak
+      message: DoAfter чтобы усадить 2.0 -> 0.2.
+    - type: Tweak
+      message: PressureDamageChange был возвращён.
+    - type: Tweak
+      message: >-
+        Wonderbox: замена полов, шкафов, лазер и гамлет вынесены в каюту кэпа +
+        по мелочи. - pahan_chiiiil.
+    - type: Remove
+      message: Свет от некоторых объектов на ВондерБоксе.
+  id: 33
+  time: '2026-02-12T23:26:13.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Одеждомат MNK
+    - type: Tweak
+      message: >-
+        Wonderbox: WT500 у ГСБ, Портативный монитор у СМО, убрана консоль
+        распред. средств с мостика + по мелочи. - pahan_chiiiil.
+  id: 34
+  time: '2026-02-25T23:16:57.0000000+00:00'
+- author: Spatison, Aviu
+  changes:
+    - type: Add
+      message: Худощавое телосложение.
+  id: 35
+  time: '2026-03-14T05:47:36.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: 'Карта под игры - TVR '
+    - type: Tweak
+      message: Правки Wonderbox'a - pahan_chiiiil
+  id: 36
+  time: '2026-03-16T18:25:54.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Add
+      message: >-
+        Квадратное меню эмоций, переключатель радиальное/квадратное можно найти
+        в настройках
+  id: 37
+  time: '2026-03-18T08:40:50.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Remove
+      message: 'В меру неинтересные игровые ивенты '
+    - type: Remove
+      message: Мыши более не мышифицируют
+    - type: Tweak
+      message: Платы Дюранда и Гигакса теперь на месте
+    - type: Tweak
+      message: Некоторые Аномалии стали более редкими
+    - type: Tweak
+      message: Хонкопс от 20-ти игроков
+    - type: Tweak
+      message: Скорострельность Дрозда
+    - type: Fix
+      message: Слои на IPC
+  id: 38
+  time: '2026-03-19T17:48:17.0000000+00:00'
+- author: anonymaidys
+  changes:
+    - type: Tweak
+      message: Декали теперь больше подходят к тайлам.
+    - type: Tweak
+      message: Некоторые тайлы возвращены к образцам 2024 года.
+  id: 39
+  time: '2026-03-23T16:29:11.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Озвучка объявлений консоли коммуникации с ТТС игрока.
+  id: 40
+  time: '2026-03-23T16:29:45.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Fix
+      message: Гарпии больше не ломаются при выборе телосложения
+  id: 41
+  time: '2026-03-24T16:00:51.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Добавлено веселье c Томасом!
+  id: 42
+  time: '2026-04-13T17:56:58.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Карта BoxMaid - pahan_chiiiil
+  id: 43
+  time: '2026-04-13T17:56:43.0000000+00:00'
+- author: Aviu
+  changes:
+    - type: Add
+      message: Выдача оружий после манифеста.
+  id: 44
+  time: '2026-04-16T15:39:03.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Remove
+      message: Старые версии карт
+  id: 45
+  time: '2026-04-23T12:10:23.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Карта - Triumph
+  id: 46
+  time: '2026-04-23T15:55:53.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Add
+      message: Добавлена возможность выбора стиля детального осмотра в настройках
+    - type: Fix
+      message: >-
+        Исправлен осмотр здоровья, теперь корректно показывает повреждения и
+        травмы частей тела
+    - type: Tweak
+      message: Улучшен внешний вид детального осмотра
+  id: 47
+  time: '2026-05-05T06:36:21.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: 'Карты: Bagel, Kettle и Scoupidia - by pahan_chiiiil and Ozzi_'
+    - type: Tweak
+      message: 'Карты: Старый Центкомм'
+    - type: Fix
+      message: Ошибки в консоли контроля питания
+  id: 48
+  time: '2026-05-11T07:50:05.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Tweak
+      message: 'Карта: Атом более вне пула станций.'
+  id: 49
+  time: '2026-05-11T20:29:57.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: >-
+        Перебалансировано время прибытия и отзыва эвакуационного шаттла в
+        зависимости от кода тревоги.
+    - type: Fix
+      message: Исправлен доступ у оружейных шкафов.
+    - type: Fix
+      message: >-
+        Исправлены ошибки локализации в карго и немного скорректирован интерфейс
+        предзаказа.
+    - type: Remove
+      message: Удалены звуки смерти, крита и выхода из крита.
+    - type: Remove
+      message: Удалены звуки удушья у негуманоидных существ.
+    - type: Fix
+      message: >-
+        Добавлены недостающие платы Гигакса, Дюранда и портативного замедлителя
+        частиц в исследования и печать.
+    - type: Remove
+      message: Убрана приписка о монтировании у инструментов и оружия ближнего боя.
+    - type: Fix
+      message: Исправлен ERROR у комбинезона службы безопасности в руках.
+    - type: Fix
+      message: Исправлено некорректное освещение настенной подстанции.
+  id: 50
+  time: '2026-05-11T07:49:49.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Add
+      message: Апстрим 03.12 - 05.29
+  id: 51
+  time: '2026-06-02T06:08:31.0000000+00:00'
+- author: Ozzi_
+  changes:
+    - type: Add
+      message: >-
+        Добавлен тайл "большой деревянный светлый пол" ; всё тёмное дерево было
+        зареспрайчено в стилистику светлого дерева.
+  id: 52
+  time: '2026-06-12T18:06:20.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Задачи антагов теперь проверяют наличие предмета на карте.
+  id: 53
+  time: '2026-06-12T18:12:20.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Remove
+      message: Убрана неуязвимость у шаттла прибытия
+    - type: Tweak
+      message: Теперь начальный спавн всегда происходит через прибытие
+    - type: Tweak
+      message: Стыковочные порты в прибытии теперь имеют публичный доступ
+    - type: Tweak
+      message: Для шаттла прибытия был добавлен специальный набор звуков
+  id: 54
+  time: '2026-06-12T20:14:10.0000000+00:00'
+- author: RedBurningPhoenix
+  changes: []
+  id: 55
+  time: '2026-06-28T13:13:10.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Fix
+      message: >-
+        Рукописные эмоции теперь триггерят события ("смеётся", "плачет", "делает
+        сальто" и другие)
+    - type: Tweak
+      message: Для музыки боеголовки теперь всегда используется ремикс Болгарыча
+    - type: Remove
+      message: Отчёт о работе станции вырезан
+    - type: Tweak
+      message: Немного изменён интерфейс манифеста игроков
+    - type: Remove
+      message: Драконы больше не имеют имён
+    - type: Remove
+      message: >-
+        Убрано случайное появление космического золотого карпа, гарпимоли,
+        ЛутБага, мотлитки, улитки и скоростной улитки
+    - type: Tweak
+      message: самостоятельное размножение мышей замедленно в 3 раза.
+    - type: Tweak
+      message: >-
+        кулдаун ручного размножения мышей (способность при управлении мышью)
+        увеличен с 1 секунды до 60 секунд
+  id: 56
+  time: '2026-06-28T13:15:31.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Remove
+      message: Удалены плохие переводы
+    - type: Add
+      message: Добавлены плохие переводы
+    - type: Fix
+      message: Исправлены плохие переводы
+  id: 57
+  time: '2026-07-02T11:33:45.0000000+00:00'
+- author: anonymaidys
+  changes:
+    - type: Remove
+      message: Появление своеобразного акцента у поломанной кибертроники.
+    - type: Tweak
+      message: Урон у Гориллы 30 -> 25.
+    - type: Tweak
+      message: Укреплённые столы больше не требуют сварки для их создания/разборки.
+    - type: Tweak
+      message: Наполнение сумок ОБР и их экипировка.
+    - type: Tweak
+      message: 'Возвращены обычные спрайты ящикам. '
+    - type: Tweak
+      message: Возвращены обычные спрайты Бригмедику (исключая скафандр).
+    - type: Tweak
+      message: >-
+        Портаченные ружейные патроны в Силовике теперь нужно вынимать
+        самостоятельно.
+    - type: Fix
+      message: Есворд можно было активировать в рюкзаках.
+    - type: Fix
+      message: УвУакцент не работал на русский язык.
+  id: 58
+  time: '2026-07-11T16:24:19.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Remove
+      message: Система баланса у каждого отдела убрана
+  id: 59
+  time: '2026-07-14T16:23:50.0000000+00:00'
+- author: Warete
+  changes:
+    - type: Add
+      message: Вариация старого Бокса (OldBox) - by Ozzi_
+    - type: Tweak
+      message: Правки Wonderbox'a - by pahan_chiiiil
+    - type: Tweak
+      message: Правки Triumph, Kettle, Bagel, Box и Atom - by Ozzi_
+    - type: Tweak
+      message: Правки Шаттлов эвакуации на картах - by Ozzi_
+  id: 60
+  time: '2026-07-14T17:28:01.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Портированно огромное количество старых спрайтов!
+  id: 61
+  time: '2026-07-14T21:30:21.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Спрайты и ротация случайных постеров перенесены со старого билда
+  id: 62
+  time: '2026-07-17T18:25:05.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Теперь питомцы могут таскать предметы
+    - type: Fix
+      message: >-
+        Гамлет (и другие питомцы) теперь могут открывать и есть содержимое (или
+        использовать содержимое иначе) коробки с пончиками (и других
+        контейнеров). Исправлен баг отсутствия UI при открытии инвентаря на
+        существе с отключенным хотабром
+    - type: Tweak
+      message: >-
+        ИИ питомцев больше не может вырваться из захвата (например в случае
+        нападения рантаймом на гамлета)
+  id: 63
+  time: '2026-07-17T18:37:20.0000000+00:00'
+- author: HSKveez
+  changes:
+    - type: Fix
+      message: Исправлены "and", "or" и "a" в ру локализации
+    - type: Fix
+      message: Микроправки локалей
+  id: 64
+  time: '2026-07-17T18:38:20.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Remove
+      message: ЛГБТ удалён
+  id: 65
+  time: '2026-07-18T07:33:42.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Старый UI консоли карго
+  id: 66
+  time: '2026-07-23T08:07:07.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: >-
+        В прибытии (на планете, мидраунд спавн) шлюзы теперь имеют публичный
+        доступ
+    - type: Fix
+      message: Звук запуска шаттла прибытия сдвинут
+  id: 67
+  time: '2026-07-23T08:14:40.0000000+00:00'
+- author: YouVeBeenLOLed
+  changes:
+    - type: Add
+      message: Добавлен молоток судьи
+    - type: Tweak
+      message: Теперь выстрел дизэйблера наносит 1 ожоговый урон
+    - type: Tweak
+      message: Теперь фонарики СБ идут в комплекте с большой батарейкой
+  id: 68
+  time: '2026-07-23T08:22:30.0000000+00:00'
+- author: anonymaidys
+  changes:
+    - type: Remove
+      message: Этикетки"(Dermaline 30u)" и "(Bicaridine 30u)" с пластырей.
+    - type: Remove
+      message: Возможность напечатать компактный дефибриллятор.
+    - type: Remove
+      message: Возможность напечатать все виды ружейных патрон .8 калибра.
+    - type: Tweak
+      message: Спрайты воздушной и пожарной сигнализаций.
+    - type: Tweak
+      message: В гардеробе СБ шлем с серым визором заменён на шлем с красным.
+    - type: Tweak
+      message: Наполнение тюремных гардеробов.
+    - type: Tweak
+      message: >-
+        Наполнение вендоматов. (МедШкаф, НаноМед Плюс, ДетектШкаф, ОдеждоМат,
+        ХимкоМат, СиндиСоки, ТвоИнструменты, РобоШкаф, ИнжеШкаф, ПТех, СБТех,
+        ОхранШкаф, НаучШкаф)
+    - type: Tweak
+      message: Наполнение поясов. (Парамедик, СБ, разгрузка ГВ)
+  id: 69
+  time: '2026-07-23T08:29:16.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Add
+      message: Добавлен русский и английский тексты для звонка при нажатии (DeskBell).
+    - type: Tweak
+      message: >-
+        Шлема теперь не скрывают волосы (ClothingHeadHelmetBasicAlt,
+        ClothingHeadHelmetRiot и ClothingHeadHelmetBombSuit).
+    - type: Tweak
+      message: Теперь дыхательные маски не видно на скафандре.
+    - type: Tweak
+      message: Заменены зимние спрайты одежды на спрайты из старого билда.
+    - type: Remove
+      message: Убраны барсетки из вендоматов и лоадаутов.
+    - type: Tweak
+      message: РПС охраны спрайт заменен на спрайт из старого билда.
+    - type: Remove
+      message: >-
+        В Утильмаге удалены Боевые перчатки, Кредиты, Плащ верного спасателя,
+        все аптечки, Роскошный медипен выживания (ещё и с ошибкой), Роскошная
+        капсула убежища, Мыло, Ящик сборки Кларка, Прыгучие ботинки, Луноходы.
+    - type: Tweak
+      message: >-
+        Изменены цена Медипен выживания( 2500), Комплект для призыва в
+        шахтёрскую смену, фонарик СБ заменен на FlashlightLantern.
+    - type: Add
+      message: Добавлен Старомодный пистолет(цена 4500).
+  id: 70
+  time: '2026-07-23T17:22:23.0000000+00:00'
+- author: Ozzi_
+  changes:
+    - type: Tweak
+      message: Декали и тайлы
+  id: 71
+  time: '2026-07-26T09:53:09.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Множество тулшед команд (подробности в PR#91).
+  id: 72
+  time: '2026-07-31T14:44:25.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Игровой режим "Dynamic"
+  id: 73
+  time: '2026-07-31T14:46:12.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Fix
+      message: Баг с окончанием раунда после взрыва ядерки
+  id: 74
+  time: '2026-08-02T19:04:19.0000000+00:00'
+- author: antiWAFG1
+  changes:
+    - type: Tweak
+      message: В таблетки вмещается 50 унций вещества.
+    - type: Fix
+      message: Теперь при разборке раздвижных окон, они не болтируются.
+    - type: Fix
+      message: Пофикшены столы, теперь их можно нормально собрать.
+  id: 75
+  time: '2026-08-02T21:05:09.0000000+00:00'
+- author: antiWAFG1
+  changes:
+    - type: Remove
+      message: >-
+        Пожарный шлем больше не даёт полную защиту от температур без основной
+        одежды.
+    - type: Tweak
+      message: В VendingMachineSec заменён RiotBulletShield на TelescopicShield
+    - type: Fix
+      message: >-
+        Визор синдиката теперь выглядит как солнцезащитный очки и имеет свойства
+        хамелеона.
+    - type: Fix
+      message: Исправил перевод стеклянного стыковочного шлюза.
+  id: 76
+  time: '2026-08-02T21:06:09.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: >-
+        Dynamic перебалансирован для более равномерного распределения
+        антагонистов.
+  id: 77
+  time: '2026-08-02T21:06:10.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Сердцебиение и звук после смерти
+    - type: Remove
+      message: >-
+        Больше нет рандомизации высоты звука практически у всех звуков (кроме
+        оружия)
+    - type: Tweak
+      message: Портированно огромное количество звуков из старого билда
+  id: 78
+  time: '2026-08-05T16:31:36.0000000+00:00'
+- author: riverkz
+  changes:
+    - type: Add
+      message: /Resources/Audio/StationEvents/epsilon.ogg
+    - type: Add
+      message: /Resources/Audio/StationEvents/peacemakers.ogg
+  id: 79
+  time: '2026-08-05T16:35:10.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Fix
+      message: Исправлены шансы на лут в шкафах
+    - type: Add
+      message: >-
+        Портировано наполнение из старого билда для LockerDetectiveFilled,
+        LockerSecurityFilled. Добавлен GunSafeTempGun + локализация. Добавлены
+        WeaponPistolMk58 в разные шкафы.
+  id: 80
+  time: '2026-08-08T08:59:45.0000000+00:00'
+- author: Pik1ta
+  changes:
+    - type: Add
+      message: Большое количество звуков которые могут издавать Гарпии. Покаркайте!
+  id: 81
+  time: '2026-08-08T16:03:14.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Remove
+      message: Очень много леденцов
+  id: 82
+  time: '2026-08-13T12:36:53.0000000+00:00'
+- author: Inconnu
+  changes:
+    - type: Add
+      message: Добавлены волны от взрывов
+    - type: Add
+      message: Добавлены следы от пуль
+    - type: Add
+      message: Добавлена репутация в ООС
+  id: 83
+  time: '2026-08-13T12:38:36.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Добавлен E-Gun (двухрежимный энергетический пистолет)
+    - type: Add
+      message: Добавлен молот Тагиллы со звуками удара
+    - type: Add
+      message: Портированы боди-камеры службы безопасности
+    - type: Add
+      message: >-
+        Добавлено световое копьё (hardlight spear), гипоспрей бригмедика,
+        медицинский разгрузочный жилет
+    - type: Add
+      message: Добавлены зип-локи, секретные документы и шляпа гнома
+    - type: Tweak
+      message: Убрано слово "any" (любой) из названий магазинов патронов
+    - type: Tweak
+      message: Обновлены спрайты коробок и плащей ГСБ
+    - type: Tweak
+      message: Портирован старый спрайт мака
+  id: 84
+  time: '2026-08-13T12:39:53.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Мид-раунд антаг-роль Терминатор
+    - type: Add
+      message: Компонент HeatOverTime
+  id: 85
+  time: '2026-08-13T12:42:08.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Адаптивный игровой режим
+  id: 86
+  time: '2026-08-15T17:28:59.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Add
+      message: Портированы спрайы магазинов для МК58, Лектера, Дрозда и АКМС
+    - type: Add
+      message: >-
+        Портированы спрайты оружия Гадюки, Бульдога, АКМС'а, Лектера,
+        Кардашёв-Мосина, L6 SAW'а, Кобры, Двустволки, Дрозда, Антикварного
+        пистолета, C-20R, Протокинетика и Обреза
+  id: 87
+  time: '2026-08-15T17:34:14.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Add
+      message: >-
+        Портировано наполнение ДетекШкафа из старого билда. Портирован спрайт
+        пожарного костюма из старого билда.  Добавлены CargoTechFabCircuitboard,
+        ScienceTechFabCircuitboard, ServiceTechFabCircuitboard в наполнения
+        шкафов.
+  id: 88
+  time: '2026-08-16T08:52:12.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Add
+      message: >-
+        Портированы спрайты из старого билда капюшоны биозащитного костюма,
+        канистры с газами,  водолазки рд.
+    - type: Add
+      message: Добавлен второй плащ для капитана.
+    - type: Remove
+      message: Катриджи автоинъектора.
+    - type: Tweak
+      message: >-
+        Теперь вместо сменяемых магазинов христов имеет встроенный на 5
+        патронов. 
+    - type: Tweak
+      message: Изменены называния плащей капитана.
+  id: 89
+  time: '2026-08-20T21:08:57.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Remove
+      message: Убрана телепортация игроков с шаттла прибытия
+  id: 90
+  time: '2026-08-21T09:41:35.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Добавлен гранатомет Шинано и боеприпасы к нему.
+    - type: Add
+      message: Добавлены рецепты для создания гранат Шинано в автолатте.
+    - type: Add
+      message: Добавлены базовый скафандр и шлем.
+    - type: Add
+      message: Добавлены черные перчатки СБ в гардероб детектива.
+    - type: Add
+      message: >-
+        Добавлен энергетический боевой топор, который можно найти в технических
+        тоннелях или среди обломков утилизаторов.
+    - type: Add
+      message: Добавлен имплант светового копья в аплинк Синдиката.
+    - type: Tweak
+      message: Световое копье теперь можно использовать чаще.
+    - type: Fix
+      message: Исправлена работа баротравмы.
+  id: 91
+  time: '2026-08-22T09:26:26.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Перенесен сейф с E-gun (и его фейковая версия) со старого репозитория.
+    - type: Add
+      message: >-
+        Добавлены 59 старых треков лобби/музыкального автомата из старого
+        репозитория.
+    - type: Remove
+      message: Убрано объявление о "Резне" в чате в конце раунда.
+    - type: Remove
+      message: >-
+        Убран спавн личинок ксеноморфов (фейсхаггеров) из случайных спавнеров
+        враждебных мобов.
+    - type: Tweak
+      message: Отключено оповещение на всю станцию о начале события "Спящие агенты".
+    - type: Fix
+      message: >-
+        Исправлена обработка заикания (stuttering) для слов с русскими
+        согласными.
+    - type: Fix
+      message: >-
+        Исправлено быстрое надевание носков и нижнего белья по нажатию клавиши
+        Z.
+  id: 92
+  time: '2026-08-22T09:29:58.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Add
+      message: >-
+        Добавлены ClothingShoesBootsMagAdv и JetpackVoid в наполнение
+        SuitStorageCE.
+  id: 93
+  time: '2026-08-22T09:43:03.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: >-
+        Вентиляционные существа (пауки, змеи и другие) спавнятся в большем
+        количестве
+    - type: Fix
+      message: Исправлен учет нейтральных мобов в адаптивном режиме.
+  id: 94
+  time: '2026-08-24T13:42:01.0000000+00:00'
+- author: antiWAFG1
+  changes:
+    - type: Add
+      message: В лодауты добавлена вкладка Нижнего белья.
+    - type: Add
+      message: В лодауты добавлена вкладка Бра.
+    - type: Remove
+      message: Из лодаутов удалена вкладка Побрякушки.
+    - type: Remove
+      message: Из лодаутов удалена вкладка Животные.
+    - type: Remove
+      message: Из лодаутов сб удалена вкладка Звёздочка.
+    - type: Remove
+      message: Из лодаутов удалена вкладка очки.
+    - type: Tweak
+      message: Портированы старые спрайты гавайских рубашек
+    - type: Tweak
+      message: Теперь мим может писать, даже с обетом молчания.
+    - type: Tweak
+      message: У КПБ и плазмолюдей заменены аварийные наборы на наши.
+    - type: Tweak
+      message: 'исправлены лодауты плазмаменов '
+  id: 95
+  time: '2026-08-24T15:56:10.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Сила радиации была существенно уменьшена
+  id: 96
+  time: '2026-08-25T00:31:53.0000000+00:00'
+- author: antiWAFG1
+  changes:
+    - type: Remove
+      message: Попугаи больше не говорят.
+    - type: Remove
+      message: У парамедика при появлении больше нет каталки.
+    - type: Remove
+      message: >-
+        Вырезана возможность у КПБ ставить себе огромные крылья, маленькие
+        остались.
+    - type: Remove
+      message: >-
+        Удалена возможно выбрать неиспользованных в игре антагонистов в
+        персоанализации. 
+    - type: Tweak
+      message: Портирован старый спрайт дронов
+  id: 97
+  time: '2026-08-25T12:47:05.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Урон от вакуума был заметно увеличен
+    - type: Fix
+      message: >-
+        Патроны шинано были добавлены в техфаб сулжбы безопасности и дерево
+        исследований
+    - type: Fix
+      message: >-
+        Баг с замедлением хардграба (захвата с включённым режимом атаки) был
+        исправлен
+  id: 98
+  time: '2026-08-25T12:48:30.0000000+00:00'
+- author: Urames
+  changes:
+    - type: Add
+      message: >-
+        наполнение и спрайты разных вещей из старого билда, добавлены гарнитуры
+        в шкафы глав
+    - type: Remove
+      message: монитор экипажа из шкафа парамедика
+    - type: Tweak
+      message: переставил очки в вендомате
+  id: 99
+  time: '2026-08-25T18:46:44.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Уменьшен спавн вент криттеров
+  id: 100
+  time: '2026-08-26T14:20:48.0000000+00:00'
+- author: antiWAFG1
+  changes:
+    - type: Fix
+      message: Пофикшен бра в лодаутах.
+  id: 101
+  time: '2026-08-26T17:05:53.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Remove
+      message: Цель "проучить" была удалена.
+  id: 102
+  time: '2026-08-28T20:14:33.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Remove
+      message: Сильные карпы из разлома дракона
+    - type: Tweak
+      message: Тела, съеденные драконом больше не гниют
+  id: 103
+  time: '2026-08-28T20:17:16.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Add
+      message: Событие, превращающие случайные предметы в артефакты
+  id: 104
+  time: '2026-08-29T18:42:48.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Убрана вариация звука у колокола
+  id: 105
+  time: '2026-08-29T18:44:46.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Fix
+      message: Прикреплённые предметы больше нельзя засунуть в утилизационный бак
+  id: 106
+  time: '2026-08-30T05:37:37.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Tweak
+      message: Заряд дубинки теперь тратится только при попадании по игрокам.
+    - type: Tweak
+      message: У дубинки отключен удар правой кнопкой мыши.
+  id: 107
+  time: '2026-08-30T10:43:46.0000000+00:00'
+- author: CREAsTIVE
+  changes:
+    - type: Fix
+      message: Анализатор здоровья больше не имеет задержки при открытии интерфейса
+  id: 108
+  time: '2026-08-30T10:45:43.0000000+00:00'
 - author: CREAsTIVE
   changes:
     - type: Add

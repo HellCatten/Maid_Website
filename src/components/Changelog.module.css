@@ -31,17 +31,55 @@
 }
 
 .scrollArea {
+  /* Переменные для кнопки и отступов */
+  --btn-font-size: 0.95rem;
+  --btn-line-height: 1.2;
+  --btn-padding-y: 0.75rem;
+  --btn-border: 1px;
+  --btn-margin-top: 1rem;
+  --scroll-padding-bottom: 1rem;
+
   flex: 1;
   overflow-y: auto;
   padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  
+  /* Резервирует место под скроллбар, чтобы он не наезжал на элементы по горизонтали */
+  scrollbar-gutter: stable;
 }
 
 /* Кастомизация скроллбара */
-.scrollArea::-webkit-scrollbar { width: 6px; }
-.scrollArea::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+.scrollArea::-webkit-scrollbar { 
+  width: 6px; 
+}
+
+/* 
+  Ограничиваем трек снизу:
+  Высота строки кнопки + 2*padding + 2*border + margin-top кнопки + padding-bottom контейнера + 4px
+*/
+.scrollArea::-webkit-scrollbar-track {
+  background: transparent;
+  margin-top: 0.25rem;
+  margin-bottom: calc(
+    (var(--btn-font-size) * var(--btn-line-height)) + 
+    (var(--btn-padding-y) * 2) + 
+    (var(--btn-border) * 2) + 
+    var(--btn-margin-top) + 
+    var(--scroll-padding-bottom) + 
+    4px
+  );
+}
+
+.scrollArea::-webkit-scrollbar-thumb { 
+  background: rgba(255, 255, 255, 0.2); 
+  border-radius: 4px; 
+}
+
+.scrollArea::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
 
 .entryInfo {
   display: flex;
@@ -51,7 +89,10 @@
   margin-bottom: 0.5rem;
 }
 
-.author { color: #ffaa00; font-weight: bold; }
+.author { 
+  color: #ffaa00; 
+  font-weight: bold; 
+}
 
 .changeList {
   list-style: none;
@@ -82,11 +123,14 @@
 }
 
 .load-more-btn {
-  margin-top: 1rem;
-  padding: 0.75rem;
+  margin-top: var(--btn-margin-top);
+  padding: var(--btn-padding-y) 0.75rem;
+  font-size: var(--btn-font-size);
+  line-height: var(--btn-line-height);
+  border: var(--btn-border) solid #444;
+  
   background-color: #333;
   color: #fff;
-  border: 1px solid #444;
   border-radius: 6px;
   cursor: pointer;
   font-family: inherit;
@@ -101,26 +145,4 @@
 .load-more-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-/* Кастомизация скроллбара */
-.scrollArea::-webkit-scrollbar { 
-  width: 6px; 
-}
-
-/* Добавляем прозрачный трек с отступами от краев */
-.scrollArea::-webkit-scrollbar-track {
-  background: transparent;
-  margin-top: 0.25rem; /* Отступает немного от заголовка */
-  margin-bottom: 0.5rem; /* Отступает от нижнего края, не ломая border-radius */
-}
-
-.scrollArea::-webkit-scrollbar-thumb { 
-  background: rgba(255, 255, 255, 0.2); 
-  border-radius: 4px; 
-}
-
-/* (По желанию) при наведении скроллбар становится чуть ярче */
-.scrollArea::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
 }
