@@ -76,3 +76,29 @@
   text-transform: uppercase;
   color: #000;
 }
+
+.message {
+  overflow-wrap: break-word;
+}
+
+.load-more-btn {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.load-more-btn:hover:not(:disabled) {
+  background-color: #444;
+}
+
+.load-more-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

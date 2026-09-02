@@ -2,6 +2,7 @@
 // src/pages/index.astro
 import BaseLayout from '../layouts/Layout.astro';
 import Changelog from '../components/Changelog.jsx';
+import ServerStatus from '../components/ServerStatus.jsx';
 
 import fs from 'node:fs';
 import { load } from 'js-yaml';
@@ -19,30 +20,24 @@ interface ChangelogEntry {
 }
 
 interface ChangelogFile {
-  Name?: string;
-  Order?: number;
   Entries: ChangelogEntry[];
 }
 
-// 1. Читаем файл при сборке
-// В Docker файл будет лежать именно тут благодаря wget
-let changelogData: ChangelogFile = { Entries: [] };
+let initialEntries: ChangelogEntry[] = [];
 
 try {
   const fileContents = fs.readFileSync('src/data/changelog.yml', 'utf8');
-  const parsed = load(fileContents) as ChangelogFile; // Приводим тип
+  const parsed = load(fileContents) as ChangelogFile;
   
   if (parsed && parsed.Entries) {
-    changelogData = parsed;
+    // Берем только первые 10 для первичной загрузки!
+    initialEntries = parsed.Entries
+      .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+      .slice(0, 10); 
   }
 } catch (e) {
-  console.warn("Файл changelog.yml не найден. Используются пустые данные.");
+  console.warn("Ошибка при чтении changelog.yml");
 }
-
-// 2. Сортируем записи от новых к старым (по дате) и берем только 10 последних
-const latestEntries = changelogData.Entries
-  .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
-  .slice(0, 10); // Обрезаем массив, чтобы не грузить 1200 строк на клиент!
 ---
 
 <BaseLayout title="Главная">
@@ -57,7 +52,8 @@ const latestEntries = changelogData.Entries
     <!-- Наш React компонент Changelog -->
     <!-- client:idle загрузит JS для него, когда браузер будет свободен -->
     <aside class="sidebar">
-      <Changelog entries={latestEntries} client:idle />
+      <Changelog initialEntries={initialEntries} client:load />
+      <ServerStatus client:load />
     </aside>
     
   </div>

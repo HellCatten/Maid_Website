@@ -1,0 +1,67 @@
+.container {
+  /* Размеры и фон под ваш стиль */
+  width: 25vw;
+  background-color: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 16px;
+  color: #fff;
+  font-family: system-ui, sans-serif;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.topRow, .bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.serverName {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.serverAddress {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.roundTime {
+  font-size: 1.1rem;
+  color: #ddd;
+}
+
+.statsRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.players {
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+/* Статусный кружок (зеленый/красный) */
+.statusDot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #4ade80; /* Зеленый по умолчанию */
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+}
+
+.statusDot.offline {
+  background-color: #f87171; /* Красный */
+  box-shadow: 0 0 8px rgba(248, 113, 113, 0.6);
+}
+
+.skeleton {
+  color: #555;
+  font-style: italic;
+}

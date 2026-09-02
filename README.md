@@ -45,4 +45,4 @@ All commands are run from the root of the project, from a terminal:
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 
-About changelog component. There is changelog.yml for dev purposes. In prod version you must download actual changelog like in Dockerfile.
+About changelog component. There is changelog.yml for dev purposes. In prod version you must download actual changelog like in Dockerfile. 
