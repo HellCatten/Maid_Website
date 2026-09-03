@@ -1,0 +1,42 @@
+name: Sync Discord News
+
+on:
+  schedule:
+    - cron: '0 */12 * * *' # Каждые 12 часов
+  workflow_dispatch:        # Кнопка для ручного запуска в GitHub
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Используем PAT для последующего триггера deploy.yml
+          token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run news sync
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
+        run: node scripts/sync-news.mjs
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add public/news-images/ src/content/news/ scripts/sync-state.json
+          
+          # Пушим только если есть новые файлы или изменения
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(news): sync news from Discord [skip ci]"
+            git push origin main
+          else
+            console.log "Нет изменений для коммита."
+          fi
