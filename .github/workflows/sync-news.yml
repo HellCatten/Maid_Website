@@ -1,9 +1,10 @@
-name: Sync Discord News
+name: Sync Discord News (Test)
 
 on:
-  schedule:
-    - cron: '0 */12 * * *' # Каждые 12 часов
-  workflow_dispatch:        # Кнопка для ручного запуска в GitHub
+  push:
+    branches:
+      - news-bot        # Сработает сразу же при пуше в эту ветку
+  workflow_dispatch:      # Оставляем на будущее
 
 jobs:
   sync:
@@ -12,8 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Используем PAT для последующего триггера deploy.yml
-          token: ${{ secrets.PAT_TOKEN }}
+          # Примечание: для тестов внутри этой же ветки можно использовать
+          # стандартный secrets.GITHUB_TOKEN, если PAT еще не создан
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+          ref: news-bot   # Четко указываем ветку для теста
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -33,10 +36,9 @@ jobs:
           
           git add public/news-images/ src/content/news/ scripts/sync-state.json
           
-          # Пушим только если есть новые файлы или изменения
           if ! git diff --cached --quiet; then
-            git commit -m "chore(news): sync news from Discord [skip ci]"
-            git push origin main
+            git commit -m "chore(news): sync news from Discord [test]"
+            git push origin news-bot
           else
-            console.log "Нет изменений для коммита."
+            echo "Нет изменений для коммита."
           fi
