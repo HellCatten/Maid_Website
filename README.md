@@ -1,32 +1,10 @@
-# Astro Starter Kit: Basics
+<div align="center"> <img alt="Space Station 14" width="880" height="300" src="https://github.com/HellCatten/Maid_Website/blob/main/src/assets/logo.png" /></div>
 
-```sh
-npm create astro@latest -- --template basics
-```
+Это репозиторий сайта проекта MaidStation, работающий на фреймворке [Astro](https://astro.build/).
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Ссылки
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
-
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+[Maid Discord Server](https://discord.gg/kNXKDvmB7H)
 
 ## 🧞 Commands
 
