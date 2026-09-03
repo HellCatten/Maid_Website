@@ -3,8 +3,18 @@ name: Sync Discord News (Test)
 on:
   push:
     branches:
-      - news-bot        # Сработает сразу же при пуше в эту ветку
-  workflow_dispatch:      # Оставляем на будущее
+      - bot-news
+    # Игнорируем пуши контента от бота, чтобы не зацикливаться:
+    paths-ignore:
+      - 'src/content/news/**'
+      - 'public/news-images/**'
+  workflow_dispatch:
+    inputs:
+      force_resync:
+        description: 'Скачать всё заново с нуля?'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   sync:
@@ -13,10 +23,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # Примечание: для тестов внутри этой же ветки можно использовать
-          # стандартный secrets.GITHUB_TOKEN, если PAT еще не создан
           token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
-          ref: news-bot   # Четко указываем ветку для теста
+          ref: bot-news
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -27,6 +35,7 @@ jobs:
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
+          FORCE_RESYNC: ${{ inputs.force_resync || false }}
         run: node scripts/sync-news.mjs
 
       - name: Commit and Push changes
@@ -34,11 +43,12 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          git add public/news-images/ src/content/news/ scripts/sync-state.json
+          git add public/news-images/ src/content/news/
           
           if ! git diff --cached --quiet; then
-            git commit -m "chore(news): sync news from Discord [test]"
-            git push origin news-bot
+            # [skip ci] гарантирует, что GitHub Actions не перезапустится
+            git commit -m "chore(news): sync news from Discord [skip ci]"
+            git push origin bot-news
           else
             echo "Нет изменений для коммита."
           fi

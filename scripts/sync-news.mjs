@@ -3,17 +3,18 @@ import path from 'node:path';
 
 const BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 const CHANNEL_ID = process.env.DISCORD_CHANNEL_ID;
+// Флаг принудительной полной пересинхронизации (опционально)
+const FORCE_RESYNC = process.env.FORCE_RESYNC === 'true';
 
 if (!BOT_TOKEN || !CHANNEL_ID) {
   console.error('Ошибка: не заданы переменные окружения DISCORD_BOT_TOKEN или DISCORD_CHANNEL_ID');
   process.exit(1);
 }
 
-const STATE_FILE = path.resolve('scripts/sync-state.json');
 const NEWS_DIR = path.resolve('src/content/news');
 const IMAGES_DIR = path.resolve('public/news-images');
-
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif']);
+
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 async function ensureDirs() {
@@ -21,17 +22,34 @@ async function ensureDirs() {
   await fs.mkdir(IMAGES_DIR, { recursive: true });
 }
 
-async function getLastMessageId() {
+// Определяем последний обработанный ID прямо по файлам в папке!
+async function getLastMessageIdFromFiles() {
+  if (FORCE_RESYNC) {
+    console.log('Включен FORCE_RESYNC: выгружаем историю заново.');
+    return null;
+  }
+
   try {
-    const data = await fs.readFile(STATE_FILE, 'utf-8');
-    return JSON.parse(data).lastMessageId || null;
+    const files = await fs.readdir(NEWS_DIR);
+    let maxId = null;
+
+    for (const file of files) {
+      if (!file.endsWith('.md')) continue;
+      // Имя файла: YYYY-MM-DD-<id>.md
+      const parts = file.replace('.md', '').split('-');
+      const id = parts[parts.length - 1];
+
+      // Проверяем, что это Snowflake ID (число)
+      if (/^\d+$/.test(id)) {
+        if (!maxId || BigInt(id) > BigInt(maxId)) {
+          maxId = id;
+        }
+      }
+    }
+    return maxId;
   } catch {
     return null;
   }
-}
-
-async function saveLastMessageId(lastMessageId) {
-  await fs.writeFile(STATE_FILE, JSON.stringify({ lastMessageId }, null, 2));
 }
 
 async function downloadFile(url, destPath) {
@@ -41,7 +59,6 @@ async function downloadFile(url, destPath) {
   await fs.writeFile(destPath, buffer);
 }
 
-// Запрос с защитой от Rate Limit (429)
 async function fetchBatch(params = {}) {
   const url = new URL(`https://discord.com/api/v10/channels/${CHANNEL_ID}/messages`);
   url.searchParams.set('limit', '100');
@@ -68,9 +85,8 @@ async function fetchBatch(params = {}) {
   return res.json();
 }
 
-// 1. Первый запуск: выкачиваем ВСЮ историю назад по ID
 async function fetchAllHistory() {
-  console.log('Первый запуск: выкачиваем всю историю канала...');
+  console.log('Выгружаем всю историю канала...');
   const allMessages = [];
   let before = null;
 
@@ -90,9 +106,8 @@ async function fetchAllHistory() {
   return allMessages;
 }
 
-// 2. Последующие запуски: забираем только новые
 async function fetchIncremental(lastId) {
-  console.log(`Инкрементальный запуск: забираем новые сообщения после ID ${lastId}...`);
+  console.log(`Инкрементальный запуск: ищем сообщения новее ID ${lastId}...`);
   const allMessages = [];
   let after = lastId;
 
@@ -111,65 +126,96 @@ async function fetchIncremental(lastId) {
   return allMessages;
 }
 
-function isImageAttachment(att) {
-  if (att.content_type && att.content_type.startsWith('image/')) return true;
-  const ext = path.extname(att.filename || '').toLowerCase();
+function isImage(filename = '', contentType = '') {
+  if (contentType && contentType.startsWith('image/')) return true;
+  const ext = path.extname(filename.split('?')[0] || '').toLowerCase();
   return IMAGE_EXTENSIONS.has(ext);
 }
 
 async function run() {
   await ensureDirs();
-  const lastId = await getLastMessageId();
+  const lastId = await getLastMessageIdFromFiles();
+  console.log(`Текущий lastId из существующих файлов: ${lastId || 'НЕТ (будет загружена вся история)'}`);
 
   const rawMessages = lastId ? await fetchIncremental(lastId) : await fetchAllHistory();
 
   if (!rawMessages.length) {
-    console.log('Новых сообщений не найдено.');
+    console.log('Новых сообщений в канале нет.');
     return;
   }
 
-  // Сортируем от старых к новым по Snowflake ID
+  // Сортируем от старых к новым
   const sortedMessages = rawMessages.sort((a, b) => (BigInt(a.id) > BigInt(b.id) ? 1 : -1));
-
-  let newestId = lastId;
   let savedCount = 0;
 
   for (const msg of sortedMessages) {
-    // Обновляем курсор самого свежего сообщения
-    newestId = msg.id;
+    console.log(`\nОбработка сообщения ID: ${msg.id} от [${msg.author.username}]...`);
 
-    // Пропускаем ботов и пустые системные оповещения
-    if (msg.author.bot) continue;
-    if (!msg.content && (!msg.attachments || msg.attachments.length === 0)) continue;
+    // 1. Собираем текст: из обычного content + из embeds (если есть)
+    let fullText = msg.content || '';
+    let embedTitle = '';
+
+    if (msg.embeds && msg.embeds.length > 0) {
+      for (const embed of msg.embeds) {
+        if (embed.title && !embedTitle) embedTitle = embed.title;
+        if (embed.description) {
+          fullText += (fullText ? '\n\n' : '') + embed.description;
+        }
+      }
+    }
+
+    // 2. Собираем картинки: из attachments + из embeds
+    const imageUrls = [];
+
+    // Из вложений
+    for (const att of msg.attachments || []) {
+      if (isImage(att.filename, att.content_type)) {
+        imageUrls.push({ url: att.url, name: att.filename });
+      }
+    }
+
+    // Из Embeds
+    for (const embed of msg.embeds || []) {
+      if (embed.image?.url && isImage(embed.image.url)) {
+        imageUrls.push({ url: embed.image.url, name: 'embed.jpg' });
+      }
+      if (embed.thumbnail?.url && isImage(embed.thumbnail.url)) {
+        imageUrls.push({ url: embed.thumbnail.url, name: 'thumb.jpg' });
+      }
+    }
+
+    // Если сообщение абсолютно пустое (системное сообщение без текста и медиа)
+    if (!fullText.trim() && imageUrls.length === 0) {
+      console.log(`[Пропуск] Сообщение ${msg.id} пустое (нет текста, embed и картинок).`);
+      continue;
+    }
 
     const date = new Date(msg.timestamp);
     const dateFormatted = date.toISOString().split('T')[0];
     const slug = `${dateFormatted}-${msg.id}`;
 
-    // Фильтруем картинки, если они есть
-    const imageAttachments = (msg.attachments || []).filter(isImageAttachment);
+    // 3. Выкачиваем картинки
     const localImages = [];
-
-    // Выкачиваем картинки локально (если присутствуют)
-    for (const [index, att] of imageAttachments.entries()) {
-      const ext = path.extname(att.filename) || '.jpg';
+    for (const [index, img] of imageUrls.entries()) {
+      const ext = path.extname(img.name.split('?')[0]) || '.jpg';
       const localFilename = `${msg.id}_${index}${ext}`;
       const localFilePath = path.join(IMAGES_DIR, localFilename);
 
-      console.log(`Скачивание картинки: ${att.filename} -> ${localFilename}`);
-      await downloadFile(att.url, localFilePath);
-      localImages.push(`/news-images/${localFilename}`);
+      console.log(`  -> Скачивание изображения: ${localFilename}`);
+      try {
+        await downloadFile(img.url, localFilePath);
+        localImages.push(`/news-images/${localFilename}`);
+      } catch (err) {
+        console.warn(`  Не удалось скачать ${img.url}: ${err.message}`);
+      }
     }
 
-    // Формируем заголовок из первой строки (или дефолтный по дате, если сообщение только из картинок)
-    const lines = (msg.content || '')
-      .split('\n')
-      .map((l) => l.trim())
-      .filter(Boolean);
-    const rawTitle = lines[0] || `Новость от ${dateFormatted}`;
-    const cleanTitle = rawTitle.slice(0, 100).replace(/["#*`]/g, '').trim();
+    // 4. Формируем заголовок
+    const lines = fullText.split('\n').map((l) => l.trim()).filter(Boolean);
+    const rawTitle = embedTitle || lines[0] || `Новость от ${dateFormatted}`;
+    const cleanTitle = rawTitle.slice(0, 100).replace(/["#*`\\]/g, '').trim();
 
-    // Формируем Markdown файл с Frontmatter
+    // 5. Генерируем .md
     let mdContent = `---
 title: "${cleanTitle}"
 date: "${msg.timestamp}"
@@ -178,10 +224,9 @@ id: "${msg.id}"
 images: ${JSON.stringify(localImages)}
 ---
 
-${msg.content || ''}
+${fullText}
 `;
 
-    // Если в посте были картинки — добавляем их в разметку в конец текста
     if (localImages.length > 0) {
       mdContent += '\n\n' + localImages.map((src) => `![](${src})`).join('\n\n');
     }
@@ -189,14 +234,10 @@ ${msg.content || ''}
     const mdFilePath = path.join(NEWS_DIR, `${slug}.md`);
     await fs.writeFile(mdFilePath, mdContent, 'utf-8');
     savedCount++;
-    console.log(`[Создана новость] ${slug}.md (картинок: ${localImages.length})`);
+    console.log(`  [УСПЕХ] Создан файл ${slug}.md`);
   }
 
-  if (newestId) {
-    await saveLastMessageId(newestId);
-  }
-
-  console.log(`Синхронизация завершена. Всего обработано и создано новостей: ${savedCount}.`);
+  console.log(`\nГотово! Всего сохранено новостей: ${savedCount}.`);
 }
 
 run().catch((err) => {
