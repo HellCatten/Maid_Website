@@ -1,0 +1,210 @@
+---
+// 1. Добавляем render в импорт
+import { getCollection, render } from 'astro:content';
+
+const allNews = await getCollection('news');
+
+const sortedNews = allNews.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+
+// 2. Используем render(entry) вместо entry.render()
+const newsWithContent = await Promise.all(
+  sortedNews.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { entry, Content };
+  })
+);
+
+function formatDate(dateStr: string | Date) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
+---
+
+<div class="news-feed-container">
+  {newsWithContent.length === 0 ? (
+    <div class="empty-state">
+      <p>Новостей пока нет.</p>
+    </div>
+  ) : (
+    <div class="news-list">
+      {newsWithContent.map(({ entry, Content }) => (
+        <article class="news-card">
+          <header class="news-header">
+            <div class="meta-row">
+              <div class="author-badge">
+                {entry.data.authorAvatar ? (
+                  <img 
+                    src={entry.data.authorAvatar} 
+                    alt={entry.data.author} 
+                    class="author-avatar"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div class="author-avatar-placeholder" />
+                )}
+                <span class="author-name">{entry.data.author}</span>
+              </div>
+
+              <time datetime={new Date(entry.data.date).toISOString()} class="news-time">
+                {formatDate(entry.data.date)}
+              </time>
+            </div>
+          </header>
+
+          <div class="news-body">
+            <Content />
+          </div>
+        </article>
+      ))}
+    </div>
+  )}
+</div>
+
+<style>
+
+  ul {
+    list-style-type: none;
+  }
+
+  .news-feed-container {
+    width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+  }
+
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    width: 100%;
+  }
+
+  .news-card {
+    background: #1e1f22; /* стилизовано под нейтральный темный интерфейс */
+    border: 1px solid #2b2d31;
+    border-radius: 12px;
+    padding: 1.5rem;
+    color: #dbdee1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.15s ease, border-color 0.15s ease;
+  }
+
+  .news-card:hover {
+    border-color: #5865f2; /* фирменный акцент Discord */
+  }
+
+  .news-header {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #2b2d31;
+    padding-bottom: 0.75rem;
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    color: #949ba4;
+  }
+
+  .news-time {
+    font-size: 1rem;
+  }
+
+  .author-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .author-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  .author-avatar-placeholder {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #5865f2;
+  }
+
+  .author-name {
+    font-weight: 600;
+    color: #f2f3f5;
+  }
+
+  .discord-icon {
+    color: #5865f2;
+  }
+
+  .news-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.35;
+  }
+
+  /* Стили для тела новости и markdown */
+  .news-body {
+    line-height: 1.6;
+    font-size: 0.95rem;
+    word-break: break-word;
+  }
+
+  .news-body :global(p) {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    white-space: pre-wrap;
+  }
+
+  .news-body :global(ul) {
+    margin-left: 32px;
+  }
+
+  /* Автоматическое оформление скачанных картинок */
+  .news-body :global(img) {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 40rem;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 0.75rem;
+    display: block;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .news-body :global(h2) {
+    margin-bottom: 0.5rem;
+  }
+
+  .news-body :global(a) {
+    color: #00a8fc;
+    text-decoration: none;
+  }
+
+  .news-body :global(a:hover) {
+    text-decoration: underline;
+  }
+
+  .empty-state {
+    padding: 3rem;
+    text-align: center;
+    color: #949ba4;
+    border: 1px dashed #2b2d31;
+    border-radius: 12px;
+  }
+</style>

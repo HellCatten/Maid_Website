@@ -15,12 +15,25 @@ const NEWS_DIR = path.resolve('src/content/news');
 const IMAGES_DIR = path.resolve('public/news-images');
 const IMAGE_EXTENSIONS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.avif']);
 
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const AVATARS_DIR = path.resolve('public/news-avatars');
 
 async function ensureDirs() {
   await fs.mkdir(NEWS_DIR, { recursive: true });
   await fs.mkdir(IMAGES_DIR, { recursive: true });
+  await fs.mkdir(AVATARS_DIR, { recursive: true }); // <-- добавили
 }
+
+function getDiscordAvatarUrl(author) {
+  if (author.avatar) {
+    // Кастомная аватарка (запрашиваем размер 128px)
+    return `https://cdn.discordapp.com/avatars/${author.id}/${author.avatar}.png?size=128`;
+  }
+  // Дефолтная аватарка Discord (если пользователь её не поставил)
+  const defaultIndex = Number((BigInt(author.id) >> 22n) % 6n);
+  return `https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png`;
+}
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // Определяем последний обработанный ID прямо по файлам в папке!
 async function getLastMessageIdFromFiles() {
@@ -132,6 +145,32 @@ function isImage(filename = '', contentType = '') {
   return IMAGE_EXTENSIONS.has(ext);
 }
 
+function formatDiscordText(text = '') {
+  if (!text) return '';
+
+  return (
+    text
+      // 1. Удаляем упоминания ролей (<@&ID>), пользователей (<@ID>, <@!ID>) и каналов (<#ID>)
+      .replace(/<(@[!&]?|#)\d+>/g, '')
+
+      // 2. Удаляем упоминания @everyone и @here
+      .replace(/@(everyone|here)/g, '')
+
+      // 3. Понижаем уровень всех Markdown-заголовков на одну ступень:
+      // "# " -> "## " (H1 станет H2)
+      // "## " -> "### " (H2 станет H3)
+      // Ограничиваемся {1,5}, так как максимум в HTML существует H6
+      .replace(/^(#{1,5})\s/gm, '#$1 ')
+
+      // 4. Схлопываем лишние подряд идущие пустые строки (больше двух подряд в одну)
+      .replace(/\n{3,}/g, '\n\n')
+
+      // 5. Удаляем пробелы и \n в САМОМ НАЧАЛЕ текста
+      // (если пинги были на первой строке, то после их удаления первая пустая строка срежется)
+      .trimStart()
+  );
+}
+
 async function run() {
   await ensureDirs();
   const lastId = await getLastMessageIdFromFiles();
@@ -150,6 +189,8 @@ async function run() {
 
   for (const msg of sortedMessages) {
     console.log(`\nОбработка сообщения ID: ${msg.id} от [${msg.author.username}]...`);
+
+
 
     // 1. Собираем текст: из обычного content + из embeds (если есть)
     let fullText = msg.content || '';
@@ -210,16 +251,40 @@ async function run() {
       }
     }
 
-    // 4. Формируем заголовок
+    // ПРИМЕНЯЕМ ОЧИСТКУ И ФОРМАТИРОВАНИЕ:
+    fullText = formatDiscordText(fullText);
+
+    // Если после удаления пингов сообщение оказалось абсолютно пустым (и картинок тоже нет)
+    if (!fullText.trim() && imageUrls.length === 0) {
+      console.log(`[Пропуск] Сообщение ${msg.id} пустое после очистки пингов.`);
+      continue;
+    }
+
+    // Заголовок формируем уже из очищенного текста
     const lines = fullText.split('\n').map((l) => l.trim()).filter(Boolean);
-    const rawTitle = embedTitle || lines[0] || `Новость от ${dateFormatted}`;
+    const rawTitle = lines[0] || `Новость от ${dateFormatted}`;
+    // Удаляем решетки (#) из строки, чтобы в frontmatter title не попали символы markdown
     const cleanTitle = rawTitle.slice(0, 100).replace(/["#*`\\]/g, '').trim();
+    
+    // --- Скачивание аватарки автора ---
+    const avatarUrl = getDiscordAvatarUrl(msg.author);
+    const avatarFilename = `${msg.author.id}.png`;
+    const localAvatarPath = path.join(AVATARS_DIR, avatarFilename);
+    const authorAvatarLocalUrl = `/news-avatars/${avatarFilename}`;
+
+    // Скачиваем аватарку (перезаписываем, если изменилась)
+    try {
+      await downloadFile(avatarUrl, localAvatarPath);
+    } catch (err) {
+      console.warn(`Не удалось скачать аватарку для ${msg.author.username}:`, err.message);
+    }
 
     // 5. Генерируем .md
     let mdContent = `---
 title: "${cleanTitle}"
 date: "${msg.timestamp}"
 author: "${msg.author.global_name || msg.author.username}"
+authorAvatar: "${authorAvatarLocalUrl}"
 id: "${msg.id}"
 images: ${JSON.stringify(localImages)}
 ---
