@@ -1,14 +1,28 @@
 ---
-// 1. Добавляем render в импорт
 import { getCollection, render } from 'astro:content';
 
 const allNews = await getCollection('news');
 
-const sortedNews = allNews.sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+// Вспомогательная функция для получения ключа дня (YYYY-MM-DD)
+const getDayKey = (dateStr: string | Date) => {
+  return new Date(dateStr).toISOString().slice(0, 10);
+};
 
-// 2. Используем render(entry) вместо entry.render()
+// Двухуровневая сортировка
+const sortedNews = allNews.sort((a, b) => {
+  const dayA = getDayKey(a.data.date);
+  const dayB = getDayKey(b.data.date);
+
+  // 1. Сравниваем дни: более свежие даты ставим ВВЕРХУ
+  if (dayA !== dayB) {
+    return dayB.localeCompare(dayA);
+  }
+
+  // 2. Внутри одного дня: сортируем по возрастанию ID (Discord Snowflake)
+  // Меньший ID (начало новости) будет ВЫШЕ, больший ID (продолжение) — НИЖЕ
+  return BigInt(a.data.id) > BigInt(b.data.id) ? 1 : -1;
+});
+
 const newsWithContent = await Promise.all(
   sortedNews.map(async (entry) => {
     const { Content } = await render(entry);
@@ -174,12 +188,16 @@ function formatDate(dateStr: string | Date) {
     margin-left: 32px;
   }
 
+  .news-body :global(ol) {
+    margin-left: 32px;
+  }
+
   /* Автоматическое оформление скачанных картинок */
   .news-body :global(img) {
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
-    max-height: 40rem;
+    max-height: 25rem;
     height: auto;
     border-radius: 8px;
     margin-top: 0.75rem;
