@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/Layout.astro';
+import NewsFeed from '../../components/NewsFeed.astro';
+
+const DISCORD_CHANNEL_URL = "https://discord.com/channels/1409217817097535598/1545157031856578701";
+---
+
+<BaseLayout title="Новости сообщества">
+  <div class="archive-page">
+    <header class="archive-header">
+      <div class="top-nav">
+        <a href="/" class="back-link">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          На главную
+        </a>
+
+        <a 
+          href={DISCORD_CHANNEL_URL} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="discord-link"
+        >
+          Канал в Discord
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+          </svg>
+        </a>
+      </div>
+
+      <h1 class="archive-title">Архив новостей</h1>
+      <p class="archive-subtitle" style="text-align: center;">
+        Полный список всех обновлений, анонсов и событий нашего сообщества.
+      </p>
+    </header>
+
+    <!-- Без указания limit рендерятся все новости -->
+    <div class="archive-content">
+      <NewsFeed />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .archive-page {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+
+  .archive-header {
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding-bottom: 1.5rem;
+  }
+
+  .top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .back-link, .discord-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #949ba4;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover, .discord-link:hover {
+    color: #5865f2;
+  }
+
+  .archive-title {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 0.5rem 0;
+    line-height: 1.2;
+  }
+
+  .archive-subtitle {
+    color: #949ba4;
+    font-size: 1.05rem;
+    margin: 0;
+  }
+
+  .archive-content {
+    width: 100%;
+  }
+</style>

@@ -1,0 +1,55 @@
+name: Sync Content (Discord & Changelog)
+
+on:
+  schedule:
+    # Запуск каждые 12 часов (в 00:00 и 12:00 UTC)
+    - cron: '0 0,12 * * *'
+  workflow_dispatch:
+    inputs:
+      force_resync:
+        description: 'Скачать всё заново с нуля?'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  sync-and-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Discord news sync
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
+          FORCE_RESYNC: ${{ inputs.force_resync || false }}
+        run: node scripts/sync-news.mjs
+
+      - name: Download game changelog
+        run : |
+          mkdir -p src/data
+          curl -sSL -o src/data/changelog.yml "https://raw.githubusercontent.com/TheMaidDev/Maid-14/refs/heads/main/Resources/Changelog/MaidChangelog.yml"
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add public/news-images/ src/content/news/ public/news-avatars/ src/data/changelog.yml
+          
+          if ! git diff --cached --quiet; then
+            # [skip ci] гарантирует, что GitHub Actions не перезапустится
+            git commit -m "chore(news): sync news from Discord [skip ci]"
+            git push origin news-bot
+          else
+            echo "Нет изменений для коммита."
+          fi

@@ -10,9 +10,6 @@ RUN npm install
 # Копируем весь исходный код проекта
 COPY . .
 
-RUN mkdir -p src/data && \
-    wget -O src/data/changelog.yml "https://raw.githubusercontent.com/TheMaidDev/Maid-14/refs/heads/main/Resources/Changelog/MaidChangelog.yml"
-
 # Собираем статический сайт
 RUN npm run build
 
