@@ -7,3 +7,4 @@ export const typeColors = {
 
 export const HUB_URL = "https://hub.spacestation14.com/api/servers"; 
 export const TARGET_ADDRESS = "ss14://maidstation14.ru";
+export const NEWS_CHANNEL = "https://discord.com/channels/1409197881163776064/1409231818544382012";
