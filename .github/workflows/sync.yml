@@ -47,9 +47,9 @@ jobs:
           git add public/news-images/ src/content/news/ public/news-avatars/ src/data/changelog.yml
           
           if ! git diff --cached --quiet; then
-            # [skip ci] гарантирует, что GitHub Actions не перезапустится
-            git commit -m "chore(news): sync news from Discord [skip ci]"
-            git push origin news-bot
+            echo "Обнаружены изменения, коммитим..."
+            git commit -m "chore(auto): sync discord news & update changelog"
+            git push origin main
           else
             echo "Нет изменений для коммита."
           fi
