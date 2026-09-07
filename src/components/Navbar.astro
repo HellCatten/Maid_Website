@@ -11,7 +11,9 @@ const links = [
 <nav class="navbar">
   <div class="flexbox">
     <div class="logo">
-      <a href="/">Maid</a>
+      <a href="/">
+        <img src="/src/assets/logo_yellow_crop_64h.png" class="logo-img">
+      </a>
     </div>
     <ul class="nav-links">
       {links.map((link) => (
@@ -38,7 +40,7 @@ const links = [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 0.5rem 2rem;
     background-color: rgba(255, 255, 255, 0.05);
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -71,10 +73,9 @@ const links = [
     flex-direction: row;
     gap: 32px;
   }
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--accent-color);
+
+  .logo-img {
+    width:64px;
   }
 
   .nav-links {
@@ -87,8 +88,10 @@ const links = [
 
   .nav-links a:hover {
     color: var(--accent-color);
+    text-shadow: 2px 2px 8px var(--accent-color-bg);
   }
   .link {
     font-weight: 300;
+    font-size: 1.1rem;
   }
 </style>

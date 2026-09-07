@@ -49,6 +49,7 @@ try {
     <!-- Основной контент главной страницы -->
     <section class="hero">
       <h1>Добро пожаловать на проект!</h1>
+      <img src="/src/assets/banner_optimized.gif" class="banner">
       <p>Тут какой-то текст, баннеры, кнопки.</p>
     </section>
 
@@ -117,8 +118,13 @@ try {
     margin-top: 1rem;
   }
 
+  .banner {
+    max-width: 100%;
+  }
+
   .hero {
     flex: 1;
+    width: 60%;
   }
 
   .sidebar {

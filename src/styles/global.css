@@ -2,7 +2,8 @@
 :root {
   --bg-color: #121212;
   --text-color: #ffffff;
-  --accent-color: #ffaa00;
+  --accent-color: rgb(253, 248, 201);
+  --accent-color-bg: #ff5900;
 }
 
 * {
