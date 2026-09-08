@@ -4,15 +4,10 @@ import BaseLayout from '../layouts/Layout.astro';
 import Changelog from '../components/Changelog.jsx';
 import ServerStatus from '../components/ServerStatus.jsx';
 import NewsFeed from '../components/NewsFeed.astro';
-import { NEWS_CHANNEL } from '../constants.js';
+import { NEWS_CHANNEL, BOOSTY_URL, DISCORD_URL, GITHUB_URL } from '../constants.js';
 
 import fs from 'node:fs';
 import { load } from 'js-yaml';
-
-// Ссылки на сообщества
-const DISCORD_URL = NEWS_CHANNEL || "https://discord.gg/your-link";
-const BOOSTY_URL = "https://boosty.to/your-project";
-const GITHUB_URL = "https://github.com/your-repo";
 
 interface ChangeItem {
   type: string;
