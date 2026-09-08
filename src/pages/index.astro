@@ -51,22 +51,24 @@ try {
   <div class="main-grid">
     
     <!-- Левая колонка: Баннер, инфо, социальные кнопки -->
-    <div class="hero-box">
-      <div class="banner-wrapper">
-        <img 
-          src="/src/assets/banner_optimized.gif" 
-          alt="Maid Cafe Banner" 
-          class="banner-img"
-        />
-      </div>
+    <div class="hero-box" id="hero-box">
+      <div>
+        <div class="banner-wrapper">
+          <img 
+            src="/src/assets/banner_optimized.gif" 
+            alt="Maid Cafe Banner" 
+            class="banner-img"
+          />
+        </div>
 
-      <div class="hero-text-content">
-        <h1 class="hero-title">
-          <span class="brand-accent">Maid</span> — тот самый ламповый сервер с хорошим коммьюнити, который вы искали.
-        </h1>
-        <p class="hero-subtitle">
-          Уютная атмосфера, отзывчивая администрация и регулярные обновления. Присоединяйтесь к нашей космической станции прямо сейчас!
-        </p>
+        <div class="hero-text-content">
+          <h1 class="hero-title">
+            <span class="brand-accent">Maid</span> — тот самый ламповый сервер с хорошим коммьюнити, который вы искали.
+          </h1>
+          <p class="hero-subtitle">
+            Уютная атмосфера, отзывчивая администрация и регулярные обновления. Присоединяйтесь к нашей космической станции прямо сейчас!
+          </p>
+        </div>
       </div>
 
       <!-- Единый блок кнопок: Discord | Boosty | GitHub -->
@@ -116,7 +118,7 @@ try {
     </div>
 
     <!-- Правая колонка: React-компоненты -->
-    <div class="components-column">
+    <div class="components-column" id="components-column">
       <ServerStatus client:load />
       <Changelog initialEntries={initialEntries} client:load />
     </div>
@@ -161,6 +163,48 @@ try {
     </div>
   </section>
 </BaseLayout>
+
+<script is:inline>
+  function syncHeights() {
+    const hero = document.getElementById('hero-box');
+    const column = document.getElementById('components-column');
+
+    console.log('[Sync Layout] Поиск элементов:', { hero, column });
+
+    if (!hero || !column) {
+      console.warn('[Sync Layout] Элементы не найдены в DOM!');
+      return;
+    }
+
+    if (window.innerWidth > 1024) {
+      const heroHeight = hero.offsetHeight;
+      column.style.height = heroHeight + 'px';
+      console.log(`[Sync Layout] Высота установлена: ${heroHeight}px`);
+    } else {
+      column.style.height = 'auto';
+    }
+  }
+
+  // 1. Запуск сразу при чтении документа
+  syncHeights();
+
+  // 2. Запуск после полной загрузки страницы и картинок/гифок
+  window.addEventListener('load', syncHeights);
+
+  // 3. Запуск при изменении размера окна
+  window.addEventListener('resize', syncHeights);
+
+  // 4. Поддержка View Transitions (если используются в Astro)
+  document.addEventListener('astro:page-load', syncHeights);
+
+  // 5. Авто-отслеживание через ResizeObserver (когда догрузился баннер)
+  const heroElement = document.getElementById('hero-box');
+  if (heroElement && window.ResizeObserver) {
+    new ResizeObserver(() => {
+      syncHeights();
+    }).observe(heroElement);
+  }
+</script>
 
 <style>
   /* Сетка верхнего блока: 2 колонки */
@@ -279,12 +323,6 @@ try {
     gap: 1.25rem;
     width: 380px; /* фиксированная базовая ширина для статус-бара и чейнджлога */
     flex-shrink: 0;
-  }
-
-  @media (max-width: 1280px) {
-    .components-column {
-      width: 100%; /* При переходе в вертикальный стек компоненты займут всю ширину */
-    }
   }
 
   /* Секция новостей */
@@ -408,6 +446,7 @@ try {
     
     .components-column {
       width: 100%; /* на планшетах и мобилках компоненты растягиваются во всю ширину */
+      height: auto !important;
     }
   }
 
