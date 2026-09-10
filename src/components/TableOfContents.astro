@@ -1,0 +1,206 @@
+---
+export interface TocItem {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings?: TocItem[];
+  title?: string;
+  rootSelector?: string;
+}
+
+const {
+  headings = [],
+  title = "Содержание",
+  rootSelector = ".wiki-content",
+} = Astro.props;
+---
+
+<details class="wiki-toc" open>
+  <summary class="toc-header">
+    <span class="toc-title">{title}</span>
+    <span class="toc-toggle" aria-hidden="true"></span>
+  </summary>
+  <nav class="toc-body" aria-label={title}>
+    {headings.length > 0 ? (
+      <ol class="toc-list">
+        {headings.map((item) => (
+          <li class={`toc-item depth-${item.depth}`}>
+            <a href={`#${item.slug}`}>{item.text}</a>
+          </li>
+        ))}
+      </ol>
+    ) : (
+      <ol class="toc-list" data-auto-toc data-root={rootSelector}></ol>
+    )}
+  </nav>
+</details>
+
+<script>
+  function initAutoToc() {
+    const tocLists = document.querySelectorAll<HTMLOListElement>('[data-auto-toc]');
+    
+    tocLists.forEach((list) => {
+      const rootSel = list.getAttribute('data-root') || '.wiki-content';
+      const root = document.querySelector(rootSel);
+      if (!root) return;
+
+      const headings = root.querySelectorAll<HTMLHeadingElement>('h2, h3');
+      if (headings.length === 0) {
+        list.closest('details')?.remove();
+        return;
+      }
+
+      list.innerHTML = '';
+      let h2Counter = 0;
+      let h3Counter = 0;
+
+      headings.forEach((heading) => {
+        if (!heading.id) {
+          const rawText = heading.textContent || '';
+          heading.id = rawText
+            .toLowerCase()
+            .trim()
+            .replace(/[^\w\u0400-\u04FF\s-]/g, '')
+            .replace(/\s+/g, '-');
+        }
+
+        const isH2 = heading.tagName.toLowerCase() === 'h2';
+        let numPrefix = '';
+
+        if (isH2) {
+          h2Counter++;
+          h3Counter = 0;
+          numPrefix = `${h2Counter}. `;
+        } else {
+          h3Counter++;
+          numPrefix = `${h2Counter}.${h3Counter} `;
+        }
+
+        const li = document.createElement('li');
+        li.className = `toc-item depth-${isH2 ? 2 : 3}`;
+
+        const a = document.createElement('a');
+        a.href = `#${heading.id}`;
+        
+        const numSpan = document.createElement('span');
+        numSpan.className = 'toc-num';
+        numSpan.textContent = numPrefix;
+
+        const textSpan = document.createElement('span');
+        textSpan.textContent = heading.textContent || '';
+
+        a.appendChild(numSpan);
+        a.appendChild(textSpan);
+        li.appendChild(a);
+        list.appendChild(li);
+      });
+    });
+  }
+
+  initAutoToc();
+  document.addEventListener('astro:page-load', initAutoToc);
+</script>
+
+<style>
+  .wiki-toc {
+    display: table;
+    min-width: 280px;
+    max-width: 480px;
+    margin: 1.5rem 0 2rem;
+    padding: 0.85rem 1.25rem;
+    background: rgba(18, 18, 22, 0.7);
+    border: 1px solid rgba(253, 248, 201, 0.15);
+    border-left: 3px solid var(--accent-color-bg, #ff5900);
+    border-radius: 8px;
+    font-size: 0.92rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+  }
+
+  .toc-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    font-weight: 700;
+    color: var(--accent-color, rgb(253, 248, 201));
+    user-select: none;
+    list-style: none;
+  }
+
+  .toc-header::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc-title {
+    font-size: 1rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+
+  /* Переключатель со стилизацией под неоновый акцент */
+  .toc-toggle {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent-color-bg, #ff5900);
+    transition: opacity 0.2s;
+  }
+  .toc-toggle::after {
+    content: '[скрыть]';
+  }
+  details:not([open]) .toc-toggle::after {
+    content: '[показать]';
+  }
+  .toc-header:hover .toc-toggle {
+    text-shadow: 0 0 6px var(--accent-color-bg, #ff5900);
+  }
+
+  .toc-body {
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(253, 248, 201, 0.08);
+  }
+
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .toc-item a {
+    color: #cbd5e1;
+    text-decoration: none;
+    display: inline-flex;
+    gap: 0.4rem;
+    transition: color 0.15s, text-shadow 0.15s;
+  }
+
+  .toc-item a:hover {
+    color: var(--accent-color, rgb(253, 248, 201));
+    text-shadow: 0 0 8px rgba(253, 248, 201, 0.4);
+  }
+
+  .toc-num {
+    color: #71717a;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .depth-3 {
+    margin-left: 1.25rem;
+    font-size: 0.86rem;
+  }
+
+  @media (max-width: 640px) {
+    .wiki-toc {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+    }
+  }
+</style>

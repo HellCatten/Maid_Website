@@ -1,0 +1,428 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import TableOfContents from '../../components/TableOfContents.astro';
+---
+
+<Layout title="Правила сервера — Проект MAID">
+  <main class="wiki-container">
+    <!-- Хлебные крошки -->
+    <nav class="breadcrumbs" aria-label="Навигация">
+      <a href="/">Главная</a>
+      <span class="sep">/</span>
+      <a href="/wiki">Вики</a>
+      <span class="sep">/</span>
+      <span class="current">Правила</span>
+    </nav>
+
+    <!-- Возрастное ограничение (16+) -->
+    <div class="age-banner" role="alert">
+      <div class="age-icon">⚠️</div>
+      <div class="age-text">
+        <strong>ВАМ ДОЛЖНО БЫТЬ НЕ МЕНЬШЕ 16-ТИ ЛЕТ ДЛЯ ИГРЫ НА ПРОЕКТЕ ~MAID~</strong>
+      </div>
+    </div>
+
+    <!-- Заголовок статьи -->
+    <header class="wiki-header">
+      <div class="header-tag">Регламент</div>
+      <h1 class="wiki-title">Правила</h1>
+      <p class="wiki-subtitle">
+        Свод основных правил и стандартов поведения экипажа на проекте ~MAID~.
+      </p>
+    </header>
+
+    <!-- Fandom-style оглавление -->
+    <TableOfContents />
+
+    <article class="wiki-content">
+      <!-- 0. Мудак -->
+      <section class="rule-card">
+        <div class="rule-header">
+          <span class="rule-number">0</span>
+          <h2 id="mudak">Мудак</h2>
+        </div>
+        <p>
+          Запрещено намеренно мешать игре, действовать в ущерб здравому смыслу или искать лазейки в правилах для оправдания деструктивных действий.
+        </p>
+        <div class="callout callout-warning">
+          <span class="callout-icon">⚡</span>
+          <p><em>Плазма в дистре? — это про вас!</em></p>
+        </div>
+      </section>
+
+      <!-- 1. Гриф -->
+      <section class="rule-card">
+        <div class="rule-header">
+          <span class="rule-number">1</span>
+          <h2 id="grif">Гриф</h2>
+        </div>
+        <p>
+          Запрещены убийства, мотив которых не является следствием игровых событий, а основан на личном умысле (прим. — Метахейт).
+        </p>
+        <p>
+          Допустимы убийства в случае необходимой самообороны или при наличии <strong>веского ролевого обоснования</strong>.
+        </p>
+
+        <div class="sub-block">
+          <h3 id="grif-exceptions">Исключения</h3>
+          <ul class="styled-list">
+            <li>Клоуны и мимы имеют больше свободы в провокациях экипажа, но не могут убивать или создавать угрозу для станции.</li>
+            <li>Экипаж, независимо от роли, может применять летальную силу против явных и опасных антагонистов (прим. — Оперативники, культ).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 2. Выход из роли -->
+      <section class="rule-card">
+        <div class="rule-header">
+          <span class="rule-number">2</span>
+          <h2 id="roleplay-break">Выход из роли</h2>
+        </div>
+        <p>Персонажам неизвестны внутриигровые термины (прим. — Емаг, Аплинк), названия режимов и арсенал антагонистов.</p>
+        <p>Экипаж после смерти или клонирования не помнит обстоятельств своей смерти.</p>
+        <p>Метадружба наказывается — от предупреждения до перевода вас на локальный сервер.</p>
+        <p>Манчкинизм или стремление обчистить всю станцию «про запас» — путь к диалогу с администрацией.</p>
+      </section>
+
+      <!-- 3. Нарушение атмосферы -->
+      <section class="rule-card">
+        <div class="rule-header">
+          <span class="rule-number">3</span>
+          <h2 id="atmosphere">Нарушение атмосферы</h2>
+        </div>
+        <p>
+          Соблюдайте грамотность и избегайте сленга («спс», «плз», «ку», «хай», «пу-пу-пу» и прочие). <strong>Особенно применимо к командованию станции (Правило 6).</strong>
+        </p>
+        <p>Запрещено обсуждать внеигровые темы от лица персонажа (OOC в IC). Используйте LOOC, без особого фанатизма.</p>
+        <p>Имя и фамилия должны соответствовать расе персонажа. Воспользуйтесь генератором имён для примера.</p>
+        <p>Запрещены имена знаменитостей, исторических личностей, мемы или околесица.</p>
+        <p>Описание внешности не должно содержать предыстории или черт характера вашего персонажа.</p>
+      </section>
+
+      <!-- 4. Вредоносное внеигровое взаимодействие -->
+      <section class="rule-card">
+        <div class="rule-header">
+          <span class="rule-number">4</span>
+          <h2 id="harmful-meta">Вредоносное внеигровое взаимодействие</h2>
+        </div>
+        <p>Запрещено обсуждать события текущего раунда в OOC-чате, дискорде или других местах до его окончания.</p>
+        <p>Запрещено использовать внешние средства связи для координации действий в игре.</p>
+        <p>Запрещено использовать несколько аккаунтов для обхода бана или мести в том же раунде.</p>
+        <p>Использование уязвимостей игры или стороннего ПО строго запрещено.</p>
+      </section>
+
+      <!-- 5. Особые условия -->
+      <section class="rule-card">
+        <div class="rule-header">
+          <span class="rule-number">5</span>
+          <h2 id="special-conditions">Особые условия</h2>
+        </div>
+        <p>Поведение животных и особых существ должно соответствовать их природе. Читайте описание ролей, прежде чем их брать.</p>
+        <p>
+          Киборги и ИИ должны строго соблюдать роль безэмоциональной машины, следовать своим законам. Следуйте букве закона, но без злонамеренного поиска лазеек для причинения тупого вреда (Правило 0). Законы имеют приоритет над правилами сервера. Ответственность за установление деструктивных законов (например, «Плазма — это жизнь») и за все последующие действия ИИ несёт игрок, который их установил.
+        </p>
+      </section>
+
+      <!-- 6. Правила отдельных ролей -->
+      <section class="rule-card">
+        <div class="rule-header">
+          <span class="rule-number">6</span>
+          <h2 id="roles-rules">Правила отдельных ролей</h2>
+        </div>
+        <p>Задача антагонистов — сделать раунд интереснее и опаснее для остальных игроков в разумных пределах.</p>
+        
+        <ul class="styled-list">
+          <li>
+            Выдаваемые агентам синдиката цели должны использоваться как идеи для отыгрыша, а не считаться ограничениями, до тех пор, пока это не скатывается к попыткам уничтожения всей станции или экипажа. От групповых антагонистов ожидается командная работа для достижения общей цели.
+          </li>
+          <li>
+            Некоторые игровые режимы подразумевают, что вы можете стать антагонистом в ходе игры по не своей воле. Это значит, что вы автоматически принимаете правила другой стороны и должны способствовать достижению поставленной цели.
+          </li>
+        </ul>
+
+        <div class="role-subsection">
+          <div class="role-badge badge-command">Командование</div>
+          <h3 id="role-command">Главы</h3>
+          <p class="role-note">Администрация крайне строго относится к вашей речи и поведению.</p>
+          <ul class="styled-list">
+            <li>
+              Безграмотная речь, а также нелогичные и глупые действия приведут к вашему Джоббану. Грамматические и пунктуационные ошибки в оповещениях станции также приведут вас к джоббану.
+            </li>
+            <li>
+              От глав ожидается повышенный уровень игры и инициативы. Если вы намеренно выходите в начале раунда, не оставив замены, из-за чего экипаж 20 минут не может получить доступ к вашему снаряжению, ИЛИ если вы регулярно забрасываете обязанности и на вас жалуются сотрудники станции, — к вам будут применены меры.
+            </li>
+          </ul>
+        </div>
+
+        <div class="role-subsection">
+          <div class="role-badge badge-sec">Безопасность</div>
+          <h3 id="role-security">Служба Безопасности</h3>
+          <p class="role-note">Ваша цель — защита экипажа, а не калечение или убийство.</p>
+          <ul class="styled-list">
+            <li>
+              СБ запрещено применять летальное оружие для задержания. Отсутствие нелетального оружия или его разрядка — ваши проблемы, а не убитых при задержании людей.
+            </li>
+            <li>
+              Установленный на станции код не дает вам права повышать сроки или применять летальное оружие по отношению к экипажу. Важно понимать саму ситуацию, в данный конкретный момент, а не обобщать ее «Красным кодом» или подобное.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 7. ERP -->
+      <section class="rule-card">
+        <div class="rule-header">
+          <span class="rule-number">7</span>
+          <h2 id="erp">ERP</h2>
+        </div>
+        <p class="erp-text"><em>Боже упаси...</em></p>
+      </section>
+    </article>
+  </main>
+</Layout>
+
+<style>
+  :root {
+    --accent-color: rgb(253, 248, 201);
+    --accent-color-bg: #ff5900;
+  }
+
+  .wiki-container {
+    width: 100%;
+    padding: 1.5rem 0 5rem;
+    color: #e2e8f0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.65;
+  }
+
+  /* Хлебные крошки */
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 1.5rem;
+  }
+  .breadcrumbs a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.15s, text-shadow 0.15s;
+  }
+  .breadcrumbs a:hover {
+    color: var(--accent-color, rgb(253, 248, 201));
+    text-shadow: 0 0 8px rgba(253, 248, 201, 0.4);
+  }
+  .breadcrumbs .sep {
+    opacity: 0.4;
+  }
+  .breadcrumbs .current {
+    color: var(--accent-color, rgb(253, 248, 201));
+    font-weight: 500;
+  }
+
+  /* Баннер 16+ в стиле аварийной сигнализации */
+  .age-banner {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: linear-gradient(135deg, rgba(255, 89, 0, 0.25) 0%, rgba(220, 38, 38, 0.1) 100%);
+    border: 1px solid var(--accent-color-bg, #ff5900);
+    border-radius: 10px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 16px rgba(255, 89, 0, 0.2);
+  }
+  .age-icon {
+    font-size: 1.4rem;
+    line-height: 1;
+  }
+  .age-text {
+    color: var(--accent-color, rgb(253, 248, 201));
+    font-size: 0.95rem;
+    letter-spacing: 0.03em;
+  }
+
+  /* Заголовок страницы */
+  .wiki-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(253, 248, 201, 0.12);
+  }
+  .header-tag {
+    display: inline-block;
+    padding: 0.25rem 0.65rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 800;
+    color: var(--accent-color, rgb(253, 248, 201));
+    background: rgba(255, 89, 0, 0.14);
+    border: 1px solid rgba(255, 89, 0, 0.45);
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 0 10px rgba(255, 89, 0, 0.15);
+  }
+  .wiki-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0 0 0.5rem;
+    color: var(--accent-color, rgb(253, 248, 201));
+    text-shadow: 0 0 16px rgba(253, 248, 201, 0.25);
+    letter-spacing: -0.01em;
+  }
+  .wiki-subtitle {
+    font-size: 1.05rem;
+    color: #94a3b8;
+    margin: 0;
+  }
+
+  /* Карточки правил */
+  .rule-card {
+    background: rgba(18, 18, 24, 0.6);
+    border: 1px solid rgba(253, 248, 201, 0.08);
+    border-radius: 10px;
+    padding: 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+    scroll-margin-top: 2rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .rule-card:hover {
+    border-color: rgba(253, 248, 201, 0.2);
+    box-shadow: 0 4px 22px rgba(255, 89, 0, 0.08);
+  }
+  .rule-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  .rule-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    border-radius: 6px;
+    background: rgba(255, 89, 0, 0.12);
+    color: var(--accent-color, rgb(253, 248, 201));
+    border: 1px solid rgba(255, 89, 0, 0.4);
+    box-shadow: 0 0 10px rgba(255, 89, 0, 0.2);
+    font-size: 1rem;
+    font-weight: 800;
+  }
+  .rule-header h2 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-color, rgb(253, 248, 201));
+    letter-spacing: 0.01em;
+  }
+  .rule-card p {
+    margin: 0 0 0.75rem;
+    color: #e2e8f0;
+  }
+  .rule-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Предупреждающая плашка (callout) */
+  .callout {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    font-size: 0.95rem;
+  }
+  .callout-warning {
+    background: rgba(255, 89, 0, 0.1);
+    border: 1px solid rgba(255, 89, 0, 0.35);
+    color: var(--accent-color, rgb(253, 248, 201));
+    box-shadow: 0 0 12px rgba(255, 89, 0, 0.1);
+  }
+  .callout-icon {
+    color: var(--accent-color-bg, #ff5900);
+  }
+  .callout p {
+    margin: 0;
+  }
+
+  .styled-list {
+    margin: 0.5rem 0 1rem;
+    padding-left: 1.25rem;
+  }
+  .styled-list li {
+    margin-bottom: 0.5rem;
+    color: #e2e8f0;
+  }
+
+  .sub-block {
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px dashed rgba(253, 248, 201, 0.1);
+  }
+  .sub-block h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.05rem;
+    color: var(--accent-color, rgb(253, 248, 201));
+    scroll-margin-top: 2rem;
+  }
+
+  /* Подразделы ролей */
+  .role-subsection {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: rgba(10, 10, 14, 0.45);
+    border: 1px solid rgba(253, 248, 201, 0.08);
+    border-radius: 8px;
+  }
+  .role-subsection h3 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1.2rem;
+    color: var(--accent-color, rgb(253, 248, 201));
+    scroll-margin-top: 2rem;
+  }
+  .role-note {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 0.75rem;
+  }
+  .role-badge {
+    display: inline-block;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-radius: 4px;
+    letter-spacing: 0.06em;
+  }
+  .badge-command {
+    background: rgba(255, 89, 0, 0.15);
+    color: var(--accent-color, rgb(253, 248, 201));
+    border: 1px solid rgba(255, 89, 0, 0.4);
+    box-shadow: 0 0 8px rgba(255, 89, 0, 0.15);
+  }
+  .badge-sec {
+    background: rgba(239, 68, 68, 0.15);
+    color: #fca5a5;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+  }
+
+  .erp-text {
+    font-size: 1.1rem;
+    color: var(--accent-color, rgb(253, 248, 201));
+    opacity: 0.85;
+  }
+
+  @media (max-width: 640px) {
+    .wiki-title {
+      font-size: 1.85rem;
+    }
+    .rule-card {
+      padding: 1.25rem;
+    }
+  }
+</style>
