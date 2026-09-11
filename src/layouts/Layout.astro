@@ -51,3 +51,37 @@ const { title } = Astro.props;
     }
   }
 </style>
+
+<style is:global>
+  /* 1. Всегда резервируем трек скролла на ВСЕХ страницах (Главная, Вики, Новости).
+        Ширина экрана теперь строго одинаковая везде — сдвиг навбара вправо физически невозможен! */
+  html {
+    overflow-y: scroll;
+    /* Тонкий аккуратный скроллбар для Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  }
+
+  /* 2. Кастомный скроллбар под стиль Maid для Chrome, Edge, Safari */
+  html::-webkit-scrollbar {
+    width: 8px; /* Компактная ширина вместо стандартных громоздких 17px */
+  }
+
+  /* Прозрачный трек: когда скроллить нечего, он абсолютно незаметен и не оставляет дыр */
+  html::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Сам бегунок (полупрозрачный) */
+  html::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  /* При наведении подсвечиваем фирменным неоновым оранжевым */
+  html::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 157, 66, 0.6);
+  }
+</style>

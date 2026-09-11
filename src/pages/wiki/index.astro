@@ -1,0 +1,467 @@
+---
+// src/pages/wiki/index.astro
+import BaseLayout from '../../layouts/Layout.astro';
+import SpaceBackground from '../../components/SpaceBackground.astro';
+
+// Используем стандартный import.meta.glob с флагом eager: true
+const wikiModules = import.meta.glob('./*.astro', { eager: true });
+
+const iconFiles = import.meta.glob<{ default: ImageMetadata }>('/src/content/wiki/icons/*.png', { eager: true });
+
+// Вспомогательная функция поиска пути картинки по имени
+function getIconUrl(iconName: string): string {
+  const match = Object.entries(iconFiles).find(([path]) => path.endsWith(iconName));
+  // @ts-ignore
+  return match ? match[1].default.src || match[1].default : '';
+}
+
+// Словарь сопоставления: slug файла -> Название, Описание, Иконка
+const wikiMeta: Record<string, { title: string; icon: string; desc: string }> = {
+  forbeginners: { 
+    title: 'Для новичков', 
+    icon: 'forbeginners_icon.png', 
+    desc: 'Первые шаги на борту: управление, основы выживания и базовые советы.' 
+  },
+  howtoplay: { 
+    title: 'Как играть', 
+    icon: 'howtoplay.png', 
+    desc: 'Интерфейс, хоткеи, взаимодействие с предметами и механики окружения.' 
+  },
+  rules: { 
+    title: 'Правила сервера', 
+    icon: 'rule_icon.png', 
+    desc: 'Основные положения, правила поведения и ролевой отыгрыш.' 
+  },
+  spacelaw: { 
+    title: 'Космический закон', 
+    icon: 'space_law_icon.png', 
+    desc: 'Правовой кодекс Nanotrasen: статьи, сроки заключения и регламенты СБ.' 
+  },
+  roles: { 
+    title: 'Профессии и роли', 
+    icon: 'roles_icon.png', 
+    desc: 'От клоуна и ассистента до Главного Врача и Капитана станции.' 
+  },
+  guides: { 
+    title: 'Гайды и инструкции', 
+    icon: 'guides_icon.png', 
+    desc: 'Настройка двигателей, атмосферные расчеты, хирургия и химия.' 
+  },
+  maps: { 
+    title: 'Карты станций', 
+    icon: 'maps_icon.png', 
+    desc: 'Схемы отсеков, технические тоннели, эвакуационные маршруты.' 
+  },
+  gamemodes: { 
+    title: 'Игровые режимы', 
+    icon: 'gamemodes_icon.png', 
+    desc: 'Предатели, Ядерные Оперативники, Зомби-апокалипсис и другие угрозы.' 
+  },
+  nt: { 
+    title: 'Корпорация NanoTrasen', 
+    icon: 'nt_icon.png', 
+    desc: 'История синдиката, структура корпорации, внутренние протоколы.' 
+  },
+  homepage: { 
+    title: 'Портал сообщества', 
+    icon: 'homepage.png', 
+    desc: 'Общая информация о проекте и полезные ссылки.' 
+  }
+};
+
+
+const articles = Object.entries(wikiModules)
+  .filter(([path]) => !path.endsWith('index.astro'))
+  .map(([path, mod]: [string, any]) => {
+    const slug = path.split('/').pop()?.replace('.astro', '') || '';
+    const meta = wikiMeta[slug] || {};
+    const iconFile = mod.icon || meta.icon || 'homepage.png';
+
+    return {
+      url: `/wiki/${slug}`,
+      title: mod.title || meta.title || slug.toUpperCase(),
+      iconSrc: getIconUrl(iconFile),
+      desc: mod.desc || meta.desc || 'Статья базы знаний.'
+    };
+  });
+---
+
+<BaseLayout title="База знаний — Space Station 14">
+  <!-- Фон с космическими туманностями и звездами -->
+  <SpaceBackground />
+
+  <div class="wiki-container">
+    
+    <!-- Вводный блок об игре в стиле терминала станции -->
+    <header class="terminal-card">
+      <div class="terminal-header">
+        <div class="terminal-controls">
+          <span class="control red"></span>
+          <span class="control yellow"></span>
+          <span class="control green"></span>
+        </div>
+        <div class="terminal-title">NT_OS // DATABASE_ARCHIVE // SS14_BRIEFING</div>
+        <div class="terminal-badge">ONLINE</div>
+      </div>
+
+      <div class="terminal-body">
+        <h1 class="briefing-heading">
+          О <span class="neon-text">Space Station 14</span>
+        </h1>
+        <p class="briefing-text">
+          <strong>Space Station 14</strong> — это ролевая игра, вдохновлённая культовой классикой Space Station 13. Она наполнена паранойей, действие которой происходит в смертельной металлической ловушке, ловко маскирующейся под космическую станцию. С первого взгляда игра может показаться очень сложной, и это правда. Но это обусловлено огромным количеством взаимодействий с окружающим миром и игроками внутри него. Wiki SS14 поможет вам влиться в наше безудержное веселье.
+        </p>
+        <div class="briefing-welcome">
+          <span class="pulse-icon">✦</span>
+          <span>Добро пожаловать в команду, космонавт!</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Сетка автоматически сгенерированных кнопок -->
+    <main class="wiki-grid-section">
+      <div class="section-title-bar">
+        <h2>Разделы документации</h2>
+        <span class="articles-count">Файлов: {articles.length}</span>
+      </div>
+
+      <div class="articles-grid">
+        {articles.map((item) => (
+          <a href={item.url} class="wiki-card">
+            <!-- Блок иконки -->
+            <div class="card-icon-wrapper">
+              {item.iconSrc ? (
+                <img 
+                  src={item.iconSrc} 
+                  alt={item.title} 
+                  class="wiki-pixel-icon" 
+                  loading="lazy"
+                />
+              ) : (
+                <span class="icon-fallback">📄</span>
+              )}
+            </div>
+            
+            <!-- Текстовый блок (название и описание) -->
+            <div class="card-text">
+              <h3 class="card-title">{item.title}</h3>
+              <p class="card-desc">{item.desc}</p>
+            </div>
+
+            <!-- Стрелочка перехода -->
+            <div class="card-arrow">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    </main>
+
+  </div>
+</BaseLayout>
+
+<style>
+  /* =======================================================
+     CSS ЗВЕЗДНЫЙ ФОН (Глубокий космос без картинок)
+     ======================================================= */
+  .space-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+    background: 
+      radial-gradient(ellipse at 80% 10%, rgba(255, 157, 66, 0.05) 0%, transparent 60%),
+      radial-gradient(circle at 10% 80%, rgba(88, 101, 242, 0.05) 0%, transparent 50%),
+      #111214;
+    overflow: hidden;
+  }
+
+  /* 3 слоя звезд разного размера и плотности */
+  .stars-layer {
+    position: absolute;
+    inset: 0;
+    background-repeat: repeat;
+  }
+
+  .stars-small {
+    background-image: 
+      radial-gradient(1px 1px at 25px 40px, #ffffff, transparent),
+      radial-gradient(1px 1px at 75px 120px, rgba(255, 255, 255, 0.8), transparent),
+      radial-gradient(1px 1px at 150px 80px, #ffaa00, transparent),
+      radial-gradient(1px 1px at 220px 200px, #ffffff, transparent);
+    background-size: 300px 300px;
+    opacity: 0.6;
+    animation: starsTwinkle 6s infinite ease-in-out alternate;
+  }
+
+  .stars-medium {
+    background-image: 
+      radial-gradient(1.5px 1.5px at 50px 160px, #ffffff, transparent),
+      radial-gradient(1.5px 1.5px at 180px 40px, #5865f2, transparent),
+      radial-gradient(1.5px 1.5px at 290px 260px, #ff9d42, transparent);
+    background-size: 450px 450px;
+    opacity: 0.8;
+  }
+
+  .stars-large {
+    background-image: 
+      radial-gradient(2px 2px at 120px 250px, #ffffff, transparent),
+      radial-gradient(2.5px 2.5px at 380px 150px, #fff4e0, transparent);
+    background-size: 600px 600px;
+    opacity: 0.9;
+    filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.8));
+  }
+
+  @keyframes starsTwinkle {
+    0% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+    100% { opacity: 0.4; }
+  }
+
+  /* =======================================================
+     ОСНОВНОЙ КОНТЕНТ
+     ======================================================= */
+  .wiki-container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  /* Карточка-терминал */
+  .terminal-card {
+    background: rgba(22, 23, 26, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 157, 66, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 0 25px rgba(255, 157, 66, 0.08), 0 15px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1.25rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .terminal-controls {
+    display: flex;
+    gap: 6px;
+  }
+
+  .control {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .control.red { background: #ff5f56; }
+  .control.yellow { background: #ffbd2e; }
+  .control.green { background: #27c93f; }
+
+  .terminal-title {
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #949ba4;
+    letter-spacing: 0.1em;
+  }
+
+  .terminal-badge {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.12);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(74, 222, 128, 0.3);
+  }
+
+  .terminal-body {
+    padding: 2rem 2.25rem;
+  }
+
+  .briefing-heading {
+    margin: 0 0 1rem 0;
+    font-size: 2rem;
+    color: #ffffff;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  .neon-text {
+    color: #ff9d42;
+    text-shadow: 0 0 16px rgba(255, 157, 66, 0.4);
+  }
+
+  .briefing-text {
+    color: #c4c9d0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem 0;
+    max-width: 950px;
+  }
+
+  .briefing-welcome {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(255, 157, 66, 0.1);
+    border: 1px solid rgba(255, 157, 66, 0.25);
+    border-radius: 8px;
+    color: #ffb46e;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .pulse-icon {
+    color: #ff9d42;
+    animation: spinSlow 8s linear infinite;
+  }
+
+  @keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* =======================================================
+     СЕТКА КАРТОЧЕК
+     ======================================================= */
+  .section-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title-bar h2 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .articles-count {
+    font-size: 0.85rem;
+    color: #80848e;
+    font-family: monospace;
+  }
+
+  .articles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+
+  /* Индивидуальная кнопка/карточка */
+  .wiki-card {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background: rgba(30, 31, 34, 0.7);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .wiki-card:hover {
+    transform: translateY(-3px);
+    background: rgba(35, 37, 41, 0.9);
+    border-color: rgba(255, 157, 66, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 157, 66, 0.15);
+  }
+
+  /* Обертка иконки */
+  .card-icon-wrapper {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color 0.2s ease;
+  }
+
+  .wiki-card:hover .card-icon-wrapper {
+    border-color: rgba(255, 157, 66, 0.3);
+  }
+
+  /* Сохраняем пиксель-арт четким при увеличении */
+  .wiki-pixel-icon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  .card-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .card-title {
+    margin: 0 0 0.35rem 0;
+    color: #f2f3f5;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: color 0.2s ease;
+  }
+
+  .wiki-card:hover .card-title {
+    color: #ff9d42;
+  }
+
+  .card-desc {
+    margin: 0;
+    color: #949ba4;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-arrow {
+    color: #4e5058;
+    transition: all 0.2s ease;
+  }
+
+  .wiki-card:hover .card-arrow {
+    color: #ff9d42;
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 768px) {
+    .terminal-body {
+      padding: 1.5rem 1.25rem;
+    }
+    
+    .briefing-heading {
+      font-size: 1.6rem;
+    }
+
+    .articles-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
