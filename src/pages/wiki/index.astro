@@ -17,8 +17,8 @@ function getIconUrl(iconName: string): string {
 
 // Словарь сопоставления: slug файла -> Название, Описание, Иконка
 const wikiMeta: Record<string, { title: string; icon: string; desc: string }> = {
-  forbeginners: { 
-    title: 'Для новичков', 
+  begginersguide: { 
+    title: 'Для новых космонавтов', 
     icon: 'forbeginners_icon.png', 
     desc: 'Первые шаги на борту: управление, основы выживания и базовые советы.' 
   },
@@ -57,10 +57,10 @@ const wikiMeta: Record<string, { title: string; icon: string; desc: string }> = 
     icon: 'gamemodes_icon.png', 
     desc: 'Предатели, Ядерные Оперативники, Зомби-апокалипсис и другие угрозы.' 
   },
-  nt: { 
-    title: 'Корпорация NanoTrasen', 
+  lore: { 
+    title: 'История космоса', 
     icon: 'nt_icon.png', 
-    desc: 'История синдиката, структура корпорации, внутренние протоколы.' 
+    desc: 'История космоса, Nanotrasen и всех событий.' 
   },
   homepage: { 
     title: 'Портал сообщества', 
@@ -100,14 +100,14 @@ const articles = Object.entries(wikiModules)
           <span class="control yellow"></span>
           <span class="control green"></span>
         </div>
-        <div class="terminal-title">NT_OS // DATABASE_ARCHIVE // SS14_BRIEFING</div>
+        <div class="terminal-title">NT_OS // DATABASE_ARCHIVE // <h1>ВИКИ</h1></div>
         <div class="terminal-badge">ONLINE</div>
       </div>
 
       <div class="terminal-body">
-        <h1 class="briefing-heading">
+        <div class="briefing-heading">
           О <span class="neon-text">Space Station 14</span>
-        </h1>
+        </div>
         <p class="briefing-text">
           <strong>Space Station 14</strong> — это ролевая игра, вдохновлённая культовой классикой Space Station 13. Она наполнена паранойей, действие которой происходит в смертельной металлической ловушке, ловко маскирующейся под космическую станцию. С первого взгляда игра может показаться очень сложной, и это правда. Но это обусловлено огромным количеством взаимодействий с окружающим миром и игроками внутри него. Wiki SS14 поможет вам влиться в наше безудержное веселье.
         </p>
@@ -226,6 +226,7 @@ const articles = Object.entries(wikiModules)
   /* =======================================================
      ОСНОВНОЙ КОНТЕНТ
      ======================================================= */
+  
   .wiki-container {
     position: relative;
     z-index: 1;
@@ -276,6 +277,15 @@ const articles = Object.entries(wikiModules)
     color: #949ba4;
     letter-spacing: 0.1em;
     padding: 0 1rem;
+  }
+
+  .terminal-title h1{
+    display: inline;
+    font-family: monospace;
+    font-size: 0.8rem;
+    color: #949ba4;
+    letter-spacing: 0.1em;
+    font-weight:lighter;
   }
 
   .terminal-badge {
