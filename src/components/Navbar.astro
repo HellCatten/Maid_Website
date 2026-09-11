@@ -1,88 +1,205 @@
 ---
 // src/components/Navbar.astro
-// Здесь пишется серверный JS/TS код. В браузере его не будет.
 const links = [
   { name: 'Главная', url: '/' },
   { name: 'Новости', url: '/news' },
   { name: 'Вики', url: '/wiki' },
 ];
+
+// Получаем текущий путь для подсветки активной ссылки
+const currentPath = Astro.url.pathname;
+const isActive = (url: string) => {
+  if (url === '/') return currentPath === '/' || currentPath === '';
+  return currentPath.startsWith(url);
+};
 ---
 
-<nav class="navbar">
-  <div class="flexbox">
-    <div class="logo">
-      <a href="/">
-        <img src="/src/assets/logo_yellow_crop_64h.png" class="logo-img">
-      </a>
+<header class="navbar-wrapper">
+  <nav class="navbar">
+    <div class="flexbox">
+      <!-- Логотип -->
+      <div class="logo">
+        <a href="/" class="logo-link">
+          <img 
+            src="/src/assets/logo_yellow_crop_64h.png" 
+            alt="Maid Logo" 
+            class="logo-img"
+            width="91"
+            height="64"
+          />
+        </a>
+      </div>
+
+      <!-- Список ссылок -->
+      <ul class="nav-links">
+        {links.map((link) => {
+          const active = isActive(link.url);
+          return (
+            <li>
+              <a 
+                href={link.url} 
+                class:list={['link', { 'active': active }]}
+              >
+                <span>{link.name}</span>
+                {active && <span class="active-dot" />}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
     </div>
-    <ul class="nav-links">
-      {links.map((link) => (
-        <li><a href={link.url} class="link">{link.name}</a></li>
-      ))}
-    </ul>
-  </div>
-</nav>
+  </nav>
+</header>
 
 <style>
-  /* Стили здесь локальные (Scoped). Они применятся только к этому Navbar */
+  /* Обертка для фиксации по центру экрана */
+  .navbar-wrapper {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    pointer-events: none; /* Пропускает клики по краям экрана */
+  }
+
+  /* Основная плашка (Desktop: плавающий остров) */
   .navbar {
-    /*max-width:1280px; */
+    pointer-events: auto;
     width: fit-content;
-    margin-top: 8px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 12px;
     display: flex;
     align-items: center;
-    padding: 0.5rem 2rem;
-    background-color: rgb(36, 36, 36);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 32px;
-    transition:
-      width 1s,
-      border-left 0.5s,
-      border-right 0.5s,
-      border-radius 2s;
+    padding: 0.45rem 2.25rem;
+
+    /* Стеклянный градиент с размытием звезд на фоне */
+    background: rgba(18, 19, 23, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    /* Неоновые границы: верхняя светящаяся, остальные приглушенные */
+    border: 1px solid rgba(255, 157, 66, 0.3);
+    border-radius: 40px;
+
+    /* Многослойное свечение: тень + легкий неоновый ореол */
+    box-shadow: 
+      0 12px 30px rgba(0, 0, 0, 0.5),
+      0 0 20px rgba(255, 157, 66, 0.08);
+
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
-  @media(width < 1280px) {
-    .navbar {
-      width: 100%;
-      margin-left: auto;
-      margin-right: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      border-right: 1px solid rgba(255, 255, 255, 0);
-      border-left: 1px solid rgba(255, 255, 255, 0);
-      border-radius: 0;
-    }
-  }
+
   .flexbox {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: 5rem;
   }
 
-  .logo-img {
-    height:64px;
-    width: 91px;
+  /* Логотип */
+  .logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: transform 0.25s ease, filter 0.25s ease;
   }
 
+  .logo-link:hover {
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 10px rgba(255, 157, 66, 0.4));
+  }
+
+  .logo-img {
+    height: 64px;
+    width: 91px;
+    display: block;
+    object-fit: contain;
+  }
+
+  /* Навигационные ссылки */
   .nav-links {
     display: flex;
-    gap: 3rem;
+    gap: 2.5rem;
     list-style: none;
-    justify-content: center;
+    padding: 0;
+    margin: 0;
     align-items: center;
   }
 
-  .nav-links a:hover {
-    color: var(--accent-color);
-    text-shadow: 2px 2px 8px var(--accent-color-bg);
-  }
   .link {
-    font-weight: 400;
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 0.8rem;
+    color: #dbdfe4;
+    text-decoration: none;
+    font-weight: 500;
     font-size: 1.2rem;
+    border-radius: 20px;
+    transition: all 0.25s ease;
+  }
+
+  /* Состояние при наведении */
+  .link:hover {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 157, 66, 0.6);
+  }
+
+  /* Активная страница */
+  .link.active {
+    color: #ff9d42;
+    font-weight: 600;
+    text-shadow: 0 0 14px rgba(255, 157, 66, 0.4);
+    background: rgba(255, 157, 66, 0.08);
+  }
+
+  /* Маленькая светящаяся точка под активной ссылкой */
+  .active-dot {
+    position: absolute;
+    bottom: 2px;
+    width: 4px;
+    height: 4px;
+    background: #ff9d42;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #ff9d42;
+  }
+
+  /* =========================================
+     АДАПТИВ ДЛЯ МОБИЛЬНЫХ И ПЛАНШЕТОВ (< 1280px)
+     ========================================= */
+  @media (max-width: 1280px) {
+    .navbar {
+      width: 100%;
+      margin-top: 0;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      border-top: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.6rem 1.5rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    }
+
+    .flexbox {
+      width: 100%;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .nav-links {
+      gap: 0.75rem;
+    }
+
+    .link {
+      font-size: 1rem;
+      padding: 0.4rem 0.6rem;
+    }
+
+    .logo-img {
+      height: 48px;
+      width: auto;
+    }
   }
 </style>
