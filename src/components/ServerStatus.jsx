@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ServerStatus.module.css';
-import {HUB_URL, TARGET_ADDRESS} from '../constants.js'
+import {HUB_URL, SERVER} from '../constants.js'
 
-export default function ServerStatus() {
+/**
+ * Регулярка возвращающая "красивую" ссылку
+ */
+const sanitizeAddressRegex = /^(?:ss14s?:\/\/)?([^\s]*)$/;
+
+/**
+ * 
+ * @param {{
+ *  name?: string,
+ *  address?: string
+ * }}
+ */
+export default function ServerStatus({
+  name = SERVER.name, 
+  address = SERVER.address
+}) {
   const [serverData, setServerData] = useState(null);
   const [isError, setIsError] = useState(false);
   const [now, setNow] = useState(Date.now()); // Состояние для тикающего таймера
@@ -22,7 +37,7 @@ export default function ServerStatus() {
         
         const data = await response.json();
         // Быстрый поиск нашего сервера
-        const myServer = data.find(s => s.address === TARGET_ADDRESS);
+        const myServer = data.find(s => s.address === address);
         
         if (myServer) {
           setServerData(myServer.statusData);
@@ -40,7 +55,7 @@ export default function ServerStatus() {
     const interval = setInterval(fetchServerData, 60000); // И затем каждую минуту
     
     return () => clearInterval(interval);
-  }, []);
+  }, [address]);
 
   // Функция для расчета красивого времени (1:30:03)
   const getFormattedTime = (startTime) => {
@@ -62,14 +77,32 @@ export default function ServerStatus() {
     return `${minutes}:${pad(seconds)}`;
   };
 
+  // Для входа достаточно maidstation14.ru, протокол можно эммитить
+  let sanitizedAddress = sanitizeAddressRegex.exec(address)?.[1] || address
+
+  const onClick = async (e) => {
+    e?.preventDefault();
+    try {
+      await navigator.clipboard.writeText(address);
+      window.showToast?.("Скопировано в буфер обмена");
+    } catch (err) {
+      window.showToast?.("Не удалось скопировать в буфер обмена");
+      console.error(err)
+    }
+  };
+
+  let topRow = (
+    <div className={styles.topRow}>
+      <h1 className={styles.serverName}>{name}</h1>
+      <a onClick={onClick} className={styles.serverAddress}>{sanitizedAddress}</a>
+    </div>
+  )  
+
   // 1. Состояние: Загрузка
   if (!serverData && !isError) {
     return (
       <div className={styles.container}>
-        <div className={styles.topRow}>
-          <h1 className={styles.serverName}>Maid</h1>
-          <span className={styles.serverAddress}>maidstation.ru</span>
-        </div>
+        {topRow}
         <div className={styles.bottomRow}>
           <span className={`${styles.roundTime} ${styles.skeleton}`}>Загрузка...</span>
         </div>
@@ -81,10 +114,7 @@ export default function ServerStatus() {
   if (isError || !serverData) {
     return (
       <div className={styles.container}>
-        <div className={styles.topRow}>
-          <h1 className={styles.serverName}>Maid</h1>
-          <span className={styles.serverAddress}>maidstation.ru</span>
-        </div>
+        {topRow}
         <div className={styles.bottomRow}>
           <span className={styles.roundTime}>Сервер недоступен</span>
           <div className={styles.statsRight}>
@@ -107,11 +137,7 @@ export default function ServerStatus() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.topRow}>
-        <h1 className={styles.serverName}>Maid</h1>
-        <span className={styles.serverAddress}>maidstation.ru</span>
-      </div>
-      
+      {topRow}
       <div className={styles.bottomRow}>
         <span className={styles.roundTime}>{timeDisplay}</span>
         

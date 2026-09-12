@@ -33,7 +33,15 @@
 
 .serverAddress {
   font-size: 0.9rem;
-  color: #aaa;
+  cursor: pointer;
+  text-decoration: underline;
+  
+  color: var(--accent-color);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+a.serverAddress:hover {
+  color: var(--accent-color-bg);
 }
 
 .roundTime {
