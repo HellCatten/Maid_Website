@@ -35,7 +35,7 @@ import SpaceBackground from '../../components/SpaceBackground.astro';
     <!-- Fandom-style оглавление -->
     <TableOfContents />
 
-    <article class="wiki-content">
+    <article class="wiki-content" style="margin-top: 1.5rem">
       <!-- 0. Мудак -->
       <section class="rule-card">
         <div class="rule-header">
@@ -183,44 +183,6 @@ import SpaceBackground from '../../components/SpaceBackground.astro';
 </Layout>
 
 <style>
-  /**
-  :root {
-    --accent-color: rgb(253, 248, 201);
-    --accent-color-bg: #ff5900;
-  }
-
-  .wiki-container {
-    width: 100%;
-    padding: 1.5rem 0 0 0;
-    color: #e2e8f0;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.65;
-  }
-
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    color: #94a3b8;
-    margin-bottom: 1.5rem;
-  }
-  .breadcrumbs a {
-    color: inherit;
-    text-decoration: none;
-    transition: color 0.15s, text-shadow 0.15s;
-  }
-  .breadcrumbs a:hover {
-    color: var(--accent-color, rgb(253, 248, 201));
-    text-shadow: 0 0 8px rgba(253, 248, 201, 0.4);
-  }
-  .breadcrumbs .sep {
-    opacity: 0.4;
-  }
-  .breadcrumbs .current {
-    color: var(--accent-color, rgb(253, 248, 201));
-    font-weight: 500;
-  }
 
   /* Баннер 16+ в стиле аварийной сигнализации */
   .age-banner {
@@ -392,5 +354,4 @@ import SpaceBackground from '../../components/SpaceBackground.astro';
       padding: 1.25rem;
     }
   }
-  **/
 </style>

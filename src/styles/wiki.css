@@ -32,7 +32,6 @@
 
 .wiki-container a {
   color: var(--accent-color);
-  text-decoration: underline;
   text-underline-offset: 3px;
   transition: color 0.15s, text-shadow 0.15s;
 }
@@ -105,7 +104,7 @@
 .wiki-lead-wrapper {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
+  align-items: center;
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -527,12 +526,12 @@
 .timeline-current::before { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
 
 /* 10. АДАПТИВНОСТЬ */
-@media (max-width: 768px) {
+@media (max-width: 1280px) {
   .wiki-title { font-size: 1.9rem; }
   
   /* Перевод вступительного ряда в колонку */
   .wiki-lead-wrapper {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
   .intro-block {
     width: 100%;

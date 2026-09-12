@@ -16,27 +16,32 @@ const {
   title = "Содержание",
   rootSelector = ".wiki-content",
 } = Astro.props;
+
+// Оставляем только h2 заголовки, если данные передаются через props
+const filteredHeadings = headings.filter((item) => item.depth === 2);
 ---
 
-<details class="wiki-toc" open>
-  <summary class="toc-header">
+<nav class="wiki-toc" aria-label={title}>
+  <div class="toc-header">
     <span class="toc-title">{title}</span>
-    <span class="toc-toggle" aria-hidden="true"></span>
-  </summary>
-  <nav class="toc-body" aria-label={title}>
-    {headings.length > 0 ? (
+  </div>
+  <div class="toc-body">
+    {filteredHeadings.length > 0 ? (
       <ol class="toc-list">
-        {headings.map((item) => (
-          <li class={`toc-item depth-${item.depth}`}>
-            <a href={`#${item.slug}`}>{item.text}</a>
+        {filteredHeadings.map((item, index) => (
+          <li class="toc-item">
+            <a href={`#${item.slug}`}>
+              <span class="toc-num">{index + 1}. </span>
+              <span>{item.text}</span>
+            </a>
           </li>
         ))}
       </ol>
     ) : (
       <ol class="toc-list" data-auto-toc data-root={rootSelector}></ol>
     )}
-  </nav>
-</details>
+  </div>
+</nav>
 
 <script>
   function initAutoToc() {
@@ -47,15 +52,15 @@ const {
       const root = document.querySelector(rootSel);
       if (!root) return;
 
-      const headings = root.querySelectorAll<HTMLHeadingElement>('h2, h3');
+      // Ищем только H2
+      const headings = root.querySelectorAll<HTMLHeadingElement>('h2');
       if (headings.length === 0) {
-        list.closest('details')?.remove();
+        list.closest('.wiki-toc')?.remove();
         return;
       }
 
       list.innerHTML = '';
       let h2Counter = 0;
-      let h3Counter = 0;
 
       headings.forEach((heading) => {
         if (!heading.id) {
@@ -67,27 +72,17 @@ const {
             .replace(/\s+/g, '-');
         }
 
-        const isH2 = heading.tagName.toLowerCase() === 'h2';
-        let numPrefix = '';
-
-        if (isH2) {
-          h2Counter++;
-          h3Counter = 0;
-          numPrefix = `${h2Counter}. `;
-        } else {
-          h3Counter++;
-          numPrefix = `${h2Counter}.${h3Counter} `;
-        }
+        h2Counter++;
 
         const li = document.createElement('li');
-        li.className = `toc-item depth-${isH2 ? 2 : 3}`;
+        li.className = 'toc-item';
 
         const a = document.createElement('a');
         a.href = `#${heading.id}`;
         
         const numSpan = document.createElement('span');
         numSpan.className = 'toc-num';
-        numSpan.textContent = numPrefix;
+        numSpan.textContent = `${h2Counter}. `;
 
         const textSpan = document.createElement('span');
         textSpan.textContent = heading.textContent || '';
@@ -106,10 +101,10 @@ const {
 
 <style>
   .wiki-toc {
-    display: table;
-    min-width: 280px;
+    display: block;
+    width: 100%;
     max-width: 480px;
-    margin: 1.5rem 0 2rem;
+    box-sizing: border-box;
     padding: 0.85rem 1.25rem;
     background: rgba(18, 18, 22, 0.7);
     border: 1px solid rgba(253, 248, 201, 0.15);
@@ -122,40 +117,15 @@ const {
   .toc-header {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    font-weight: 700;
     color: var(--accent-color, rgb(253, 248, 201));
     user-select: none;
-    list-style: none;
-  }
-
-  .toc-header::-webkit-details-marker {
-    display: none;
   }
 
   .toc-title {
-    font-size: 1rem;
+    font-weight: 700;
     letter-spacing: 0.03em;
     text-transform: uppercase;
     font-size: 0.85rem;
-  }
-
-  /* Переключатель со стилизацией под неоновый акцент */
-  .toc-toggle {
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--accent-color-bg, #ff5900);
-    transition: opacity 0.2s;
-  }
-  .toc-toggle::after {
-    content: '[скрыть]';
-  }
-  details:not([open]) .toc-toggle::after {
-    content: '[показать]';
-  }
-  .toc-header:hover .toc-toggle {
-    text-shadow: 0 0 6px var(--accent-color-bg, #ff5900);
   }
 
   .toc-body {
@@ -191,16 +161,9 @@ const {
     font-variant-numeric: tabular-nums;
   }
 
-  .depth-3 {
-    margin-left: 1.25rem;
-    font-size: 0.86rem;
-  }
-
-  @media (max-width: 640px) {
+  @media (max-width: 1280px) {
     .wiki-toc {
-      width: 100%;
       max-width: 100%;
-      display: block;
     }
   }
 </style>
