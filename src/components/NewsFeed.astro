@@ -215,12 +215,14 @@ function formatDate(dateStr: string | Date) {
   }
 
   .news-body :global(a) {
-    color: #00a8fc;
+    color: var(--accent-color);
     text-decoration: none;
   }
 
   .news-body :global(a:hover) {
     text-decoration: underline;
+    color: var(--accent-color-bg);
+    text-shadow: 0 0 8px rgba(255, 89, 0, 0.4);
   }
 
   .empty-state {
