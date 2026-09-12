@@ -6,7 +6,10 @@ export const typeColors = {
 };
 
 export const HUB_URL = "https://hub.spacestation14.com/api/servers"; 
-export const TARGET_ADDRESS = "ss14://maidstation14.ru";
+
+// TODO: Сделать список серверов
+export const SERVER = { "name": "Maid", "address": "ss14://maidstation14.ru" } 
+ 
 export const DISCORD_URL = "https://discord.gg/QrWYVjWs9u";
 export const GITHUB_URL = "https://github.com/TheMaidDev";
 export const BOOSTY_URL = "https://boosty.to/aday";

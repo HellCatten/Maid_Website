@@ -2,6 +2,7 @@
 // src/layouts/BaseLayout.astro
 import '../styles/global.css'; // Подключаем глобальные стили
 import Navbar from '../components/Navbar.astro';
+import Toast from '../components/Toast.tsx';
 
 // Типизируем пропсы (если используете TypeScript)
 interface Props {
@@ -29,6 +30,8 @@ const { title } = Astro.props;
       <!-- Тут можно добавить футер -->
       <p>© 2026 Maid</p>
     </footer>
+
+    <Toast client:load />
   </body>
 </html>
 

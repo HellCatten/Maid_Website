@@ -1,0 +1,38 @@
+.toast {
+  position: fixed;
+  
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100vw - 2rem);
+  
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.item {
+  background: rgba(20, 20, 24, 0.92);
+  border: 1px solid rgba(255, 157, 66, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  color: #ffffff;
+  padding: 0.65rem 1.25rem;
+  border-radius: 8px;
+  animation: fadeToast 3s ease forwards;
+}
+
+@keyframes fadeToast {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
