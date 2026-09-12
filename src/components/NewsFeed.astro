@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import { NEWS_CHANNEL } from '../constants';
 
 // Принимаем опциональный параметр limit
 interface Props {
@@ -7,6 +8,9 @@ interface Props {
 }
 
 const { limit } = Astro.props;
+
+// Базовая ссылка на канал новостей (без слэша на конце)
+const DISCORD_CHANNEL_URL = NEWS_CHANNEL;
 
 const allNews = await getCollection('news');
 
@@ -58,6 +62,7 @@ function formatDate(dateStr: string | Date) {
         <article class="news-card">
           <header class="news-header">
             <div class="meta-row">
+              <!-- Левая часть: автор -->
               <div class="author-badge">
                 {entry.data.authorAvatar ? (
                   <img 
@@ -72,9 +77,27 @@ function formatDate(dateStr: string | Date) {
                 <span class="author-name">{entry.data.author}</span>
               </div>
 
-              <time datetime={new Date(entry.data.date).toISOString()} class="news-time">
-                {formatDate(entry.data.date)}
-              </time>
+              <!-- Правая часть: дата и прямая ссылка на сообщение -->
+              <div class="meta-right">
+                <time datetime={new Date(entry.data.date).toISOString()} class="news-time">
+                  {formatDate(entry.data.date)}
+                </time>
+
+                <!-- Прямая ссылка на сообщение в Discord -->
+                <a 
+                  href={`${DISCORD_CHANNEL_URL}/${entry.data.id}`}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="discord-msg-link"
+                  title="Открыть это сообщение в Discord"
+                  aria-label="Открыть сообщение в Discord"
+                >
+                  <svg class="discord-mini-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.01c3.931 1.793 8.18 1.793 12.061 0a.075.075 0 0 1 .078.009c.12.098.246.195.373.288a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.89.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                  </svg>
+                  <span class="btn-text">Discord</span>
+                </a>
+              </div>
             </div>
           </header>
 
@@ -88,7 +111,6 @@ function formatDate(dateStr: string | Date) {
 </div>
 
 <style>
-
   ul {
     list-style-type: none;
   }
@@ -107,7 +129,7 @@ function formatDate(dateStr: string | Date) {
   }
 
   .news-card {
-    background: #1e1f22; /* стилизовано под нейтральный темный интерфейс */
+    background: #1e1f22;
     border: 1px solid #2b2d31;
     border-radius: 12px;
     padding: 1.5rem;
@@ -117,7 +139,7 @@ function formatDate(dateStr: string | Date) {
   }
 
   .news-card:hover {
-    border-color: #5865f2; /* фирменный акцент Discord */
+    border-color: #5865f2;
   }
 
   .news-header {
@@ -130,12 +152,48 @@ function formatDate(dateStr: string | Date) {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 1.1rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     color: #949ba4;
   }
 
+  .meta-right {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+  }
+
   .news-time {
-    font-size: 1rem;
+    font-size: 0.95rem;
+    color: #949ba4;
+  }
+
+  /* Аккуратная кнопка Discord в шапке */
+  .discord-msg-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 6px;
+    background: rgba(88, 101, 242, 0.1);
+    color: #5865f2;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgba(88, 101, 242, 0.25);
+    transition: all 0.2s ease;
+  }
+
+  .discord-msg-link:hover {
+    background: #5865f2;
+    color: #ffffff;
+    border-color: #5865f2;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(88, 101, 242, 0.35);
+  }
+
+  .discord-mini-icon {
+    flex-shrink: 0;
   }
 
   .author-badge {
@@ -164,18 +222,6 @@ function formatDate(dateStr: string | Date) {
     color: #f2f3f5;
   }
 
-  .discord-icon {
-    color: #5865f2;
-  }
-
-  .news-title {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 1.35;
-  }
-
   /* Стили для тела новости и markdown */
   .news-body {
     line-height: 1.6;
@@ -197,7 +243,6 @@ function formatDate(dateStr: string | Date) {
     margin-left: 32px;
   }
 
-  /* Автоматическое оформление скачанных картинок */
   .news-body :global(img) {
     max-width: 100%;
     margin-left: auto;
@@ -215,13 +260,13 @@ function formatDate(dateStr: string | Date) {
   }
 
   .news-body :global(a) {
-    color: var(--accent-color);
+    color: var(--accent-color, #5865f2);
     text-decoration: none;
   }
 
   .news-body :global(a:hover) {
     text-decoration: underline;
-    color: var(--accent-color-bg);
+    color: var(--accent-color-bg, #7983f5);
     text-shadow: 0 0 8px rgba(255, 89, 0, 0.4);
   }
 
@@ -231,5 +276,18 @@ function formatDate(dateStr: string | Date) {
     color: #949ba4;
     border: 1px dashed #2b2d31;
     border-radius: 12px;
+  }
+
+  /* Адаптив для маленьких экранов */
+  @media (max-width: 480px) {
+    .meta-row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .meta-right {
+      width: 100%;
+      justify-content: space-between;
+    }
   }
 </style>
