@@ -140,6 +140,11 @@
   box-shadow: 0 0 8px rgba(239, 68, 68, 0.7);
 }
 
+.statusDot.loading {
+  background-color: #ff9d42;
+  box-shadow: 0 0 8px rgba(253, 138, 44, 0.7);
+}
+
 .skeleton {
   color: #555555;
   font-style: italic;

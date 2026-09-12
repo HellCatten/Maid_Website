@@ -113,6 +113,10 @@ export default function ServerStatus() {
         {renderTopRow()}
         <div className={styles.bottomRow}>
           <span className={`${styles.roundTime} ${styles.skeleton}`}>Загрузка...</span>
+          <div className={styles.statsRight}>
+            <span className={styles.players}>?/?</span>
+            <div className={`${styles.statusDot} ${styles.loading}`} title="Загрузка"></div>
+          </div>
         </div>
       </div>
     );
