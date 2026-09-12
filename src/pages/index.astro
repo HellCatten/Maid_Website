@@ -5,6 +5,7 @@ import Changelog from '../components/Changelog.jsx';
 import ServerStatus from '../components/ServerStatus.jsx';
 import NewsFeed from '../components/NewsFeed.astro';
 import { NEWS_CHANNEL, BOOSTY_URL, DISCORD_URL, GITHUB_URL } from '../constants.js';
+import SpaceBackground from '../components/SpaceBackground.astro';
 
 import fs from 'node:fs';
 import { load } from 'js-yaml';
@@ -42,6 +43,7 @@ try {
 ---
 
 <BaseLayout title="Главная">
+  <SpaceBackground />
   <!-- Главный блок: Левая колонка (контент) + Правая колонка (компоненты) -->
   <div class="main-grid">
     
