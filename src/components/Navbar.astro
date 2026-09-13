@@ -41,7 +41,6 @@ const isActive = (url: string) => {
                 class:list={['link', { 'active': active }]}
               >
                 <span>{link.name}</span>
-                {active && <span class="active-dot" />}
               </a>
             </li>
           );
@@ -154,17 +153,6 @@ const isActive = (url: string) => {
     font-weight: 600;
     text-shadow: 0 0 14px rgba(255, 157, 66, 0.4);
     background: rgba(255, 157, 66, 0.08);
-  }
-
-  /* Маленькая светящаяся точка под активной ссылкой */
-  .active-dot {
-    position: absolute;
-    bottom: 2px;
-    width: 4px;
-    height: 4px;
-    background: #ff9d42;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #ff9d42;
   }
 
   /* =========================================
