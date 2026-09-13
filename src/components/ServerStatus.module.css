@@ -11,9 +11,9 @@
   flex-shrink: 0;
 
   /* Темный фон в тон сайта */
-  background-color: rgba(20, 20, 20, 0.85);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background-color: var(--glass-effect-background-dark);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;

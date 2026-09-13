@@ -4,6 +4,7 @@
   --text-color: #ffffff;
   --accent-color: rgb(253, 248, 201);
   --accent-color-bg: #ff5900;
+  --glass-effect-background-dark: rgba(18, 19, 23, 0.75);
 }
 
 * {

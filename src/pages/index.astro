@@ -5,6 +5,7 @@ import Changelog from '../components/Changelog.jsx';
 import ServerStatus from '../components/ServerStatus.jsx';
 import NewsFeed from '../components/NewsFeed.astro';
 import { NEWS_CHANNEL, BOOSTY_URL, DISCORD_URL, GITHUB_URL } from '../constants.js';
+import SpaceBackground from '../components/SpaceBackground.astro';
 
 import fs from 'node:fs';
 import { load } from 'js-yaml';
@@ -42,6 +43,7 @@ try {
 ---
 
 <BaseLayout title="Главная">
+  <SpaceBackground />
   <!-- Главный блок: Левая колонка (контент) + Правая колонка (компоненты) -->
   <div class="main-grid">
     
@@ -50,7 +52,7 @@ try {
       <div>
         <div class="banner-wrapper">
           <img 
-            src="/src/assets/banner_optimized.gif" 
+            src="/src/assets/banner.webp" 
             alt="Maid Cafe Banner" 
             class="banner-img"
           />
@@ -234,7 +236,8 @@ try {
   }
 
   .hero-text-content {
-    background: rgba(255, 255, 255, 0.02);
+    background: var(--glass-effect-background-dark);
+    backdrop-filter: blur(16px);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 1.25rem;
