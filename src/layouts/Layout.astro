@@ -3,20 +3,77 @@
 import '../styles/global.css'; // Подключаем глобальные стили
 import Navbar from '../components/Navbar.astro';
 
-// Типизируем пропсы (если используете TypeScript)
 interface Props {
-  title: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: 'website' | 'article';
 }
 
-const { title } = Astro.props;
+const {
+  title = "Maid — Ламповый сервер Space Station 14",
+  description = "Maid Station — ролевой сервер Space Station 14 с динамичными сменами, отзывчивой администрацией и ламповым коммьюнити. Присоединяйтесь к нам!",
+  image = "/og-banner.png", // Картинка для превью в Discord/TG (1200x630 в папке public)
+  type = "website"
+} = Astro.props;
+
+// Автоматически формируем абсолютный канонический URL текущей страницы
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://maidstation.ru');
+const imageURL = new URL(image, Astro.site || 'https://maidstation.ru');
+
+// Склеиваем красивый тег <title> (например: "Вики | Maid SS14")
+const fullTitle = title.includes('Maid') ? title : `${title} | Maid SS14`;
+
+// JSON-LD микроразметка для Google и Яндекса
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Maid Station SS14",
+  "url": "https://maidstation.ru",
+  "description": description
+};
 ---
 
 <!DOCTYPE html>
 <html lang="ru">
   <head>
+    <!-- Базовые технические теги -->
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} | Maid</title>
+    <link rel="icon" type="image/png" href="/src/assets/logo_yellow_crop_64h.png" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Цвет темы браузера (на смартфонах окрашивает верхнюю плашку в неон/черный) -->
+    <meta name="theme-color" content="#ff9d42" />
+
+    <!-- Канонический URL (защита от дублей страниц) -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Основные поисковые мета-теги -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content="Space Station 14, SS14, Maid Station, сервер SS14, космическая станция 14, вики SS14, Мейд, Мэйд, SS14 roleplay" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Discord / Telegram / VK / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:site_name" content="Maid Station" />
+    <meta property="og:locale" content="ru_RU" />
+
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+
+    <!-- Микроразметка Schema.org -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
   </head>
   <body>
     <Navbar /> <!-- Навбар будет на всех страницах, использующих этот Layout -->
