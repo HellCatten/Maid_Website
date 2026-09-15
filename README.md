@@ -23,4 +23,8 @@ All commands are run from the root of the project, from a terminal:
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 
-About changelog component. There is changelog.yml for dev purposes. In prod version you must download actual changelog like in Dockerfile. 
+
+## Лицензирование / License
+
+- **Исходный код:** Доступен под лицензией [LICENSE](LICENSE) (Source-Available, только для локальной разработки и PR).
+- **Графика и медиа (Assets):** Все права защищены ([ASSETS_LICENSE](path/to/ASSETS_LICENSE.txt)). Запрещено любое коммерческое и стороннее использование.

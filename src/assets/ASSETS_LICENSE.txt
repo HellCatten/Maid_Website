@@ -1,0 +1,75 @@
+Copyright (c) 2026 Maid Station Project. All rights reserved.
+
+===============================================================================
+ENGLISH VERSION (Legally Binding)
+===============================================================================
+
+This license applies to all non-code creative assets contained within this 
+repository, including but not limited to: graphics, illustrations, character 
+designs, logos, icons, user interface (UI) elements, banners, animations, 
+audio files, music, sound effects, written lore, and textual content ("Assets").
+
+1. OWNERSHIP:
+All Assets are the proprietary intellectual property and/or copyrighted works 
+of the Maid Station Project and its contributing artists. 
+
+2. LIMITED LOCAL GRANT:
+You are granted a limited, revocable, non-exclusive, non-transferable license 
+to download and store these Assets locally SOLELY as required to build, test, 
+and run the Maid Station software locally for development and bug-fixing purposes.
+
+3. PROHIBITIONS:
+Under this license, you expressly MAY NOT:
+a) Extract, copy, distribute, sublicense, rent, sell, or publicly display 
+   any Assets outside the official Maid Station Project.
+b) Use any Assets in other websites, games, software, social media, 
+   merchandise, or promotional materials.
+c) Create derivative works, modifications, or adaptations of the Assets.
+d) Use the Assets, in whole or in part, for machine learning, artificial 
+   intelligence (AI) model training, dataset generation, or algorithmic synthesis.
+e) Use any names, logos, or trademarks of "Maid Station" to endorse or promote 
+   any third-party product or service without prior written permission.
+
+4. TERMINATION:
+Any use of the Assets outside the scope of Section 2 automatically terminates 
+this license and may constitute copyright and trademark infringement.
+
+5. DISCLAIMER:
+ALL ASSETS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+
+===============================================================================
+РУССКАЯ ВЕРСИЯ (Информационный перевод)
+===============================================================================
+
+Настоящая лицензия распространяется на все не связанные с кодом творческие 
+материалы в данном репозитории, включая (но не ограничиваясь): графику, арт, 
+дизайн персонажей, логотипы, иконки, элементы интерфейса (UI), баннеры, 
+анимации, аудиофайлы, музыку, звуковые эффекты, тексты и лор ("Ассеты").
+
+1. ПРАВООБЛАДАНИЕ:
+Все Ассеты являются исключительной интеллектуальной собственностью и объектами 
+авторского права проекта Maid Station и его авторов/художников.
+
+2. ОГРАНИЧЕННОЕ ПРАВО НА ЛОКАЛЬНОЕ ИСПОЛЬЗОВАНИЕ:
+Вам предоставляется ограниченное право хранить эти Ассеты на локальном устройстве 
+ИСКЛЮЧИТЕЛЬНО в объеме, необходимом для сборки, тестирования и локального запуска 
+проекта Maid Station в целях разработки и исправления ошибок.
+
+3. ЗАПРЕЩАЕТСЯ:
+Настоящей лицензией категорически ЗАПРЕЩАЕТСЯ:
+а) Извлекать ("рипать"), копировать, распространять, сублицензировать, продавать 
+   или публично демонстрировать Ассеты вне официального проекта Maid Station.
+б) Использовать Ассеты в сторонних сайтах, играх, приложениях, соцсетях, 
+   мерче или рекламных материалах.
+в) Создавать производные работы, модификации или адаптации Ассетов.
+г) Использовать Ассеты (полностью или частично) для обучения искусственного 
+   интеллекта (ИИ / нейросетей), создания датасетов или генеративных моделей.
+д) Использовать название, логотипы или айдентику "Maid Station" для продвижения 
+   сторонних продуктов или услуг без предварительного письменного согласия.
+
+4. ПРЕКРАЩЕНИЕ ДЕЙСТВИЯ:
+Любое использование Ассетов за рамками Раздела 2 автоматически аннулирует 
+данную лицензию и расценивается как нарушение авторских прав.
+
+5. ОТКАЗ ОТ ОТВЕТСТВЕННОСТИ:
+ВСЕ МАТЕРИАЛЫ ПРЕДОСТАВЛЯЮТСЯ "КАК ЕСТЬ", БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ.
