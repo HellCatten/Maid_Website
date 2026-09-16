@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Путь к вашей карте сайта
 Sitemap: https://maidstation.ru/sitemap-index.xml
