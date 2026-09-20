@@ -1,0 +1,71 @@
+---
+// src/components/Footer.astro
+import { GITHUB_URL, BOOSTY_URL, DISCORD_URL } from '../constants';
+
+const currentYear = 2026; // или new Date().getFullYear()
+
+// Список ссылок в виде массива объектов JS
+const links = [
+  { name: 'GitHub', href: GITHUB_URL },
+  { name: 'Boosty', href: BOOSTY_URL },
+  { name: 'Discord', href: DISCORD_URL },
+];
+---
+
+<footer class="site-footer">
+  <!-- Название проекта (первый элемент flex-контейнера) -->
+  <span class="footer-brand">Maid@{currentYear}</span>
+
+  <!-- Ссылки (каждая ссылка — отдельный дочерний элемент этого же flex-контейнера) -->
+  {links.map(({ name, href }) => (
+    <a 
+      href={href} 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="footer-link"
+    >
+      {name}
+    </a>
+  ))}
+</footer>
+
+<style>
+  .site-footer {
+    width: 100%;
+    margin-top: auto;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem 0;
+
+    /* Единый Flexbox для Maid и всех ссылок */
+    display: flex;
+    justify-content: space-around; /* Одинаковое расстояние между всеми 4 элементами */
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .footer-brand {
+    color: #949ba4;
+    font-weight: 600;
+  }
+
+  .footer-link {
+    color: #949ba4;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .footer-link:hover {
+    color: var(--accent-color);
+  }
+
+  /* На совсем маленьких экранах (мобилки) распределяем аккуратно */
+  @media (max-width: 420px) {
+    .site-footer {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.25rem;
+    }
+  }
+</style>

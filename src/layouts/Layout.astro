@@ -2,6 +2,7 @@
 // src/layouts/BaseLayout.astro
 import '../styles/global.css'; // Подключаем глобальные стили
 import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro'
 
 interface Props {
   title?: string;
@@ -90,10 +91,7 @@ const schemaData = {
       <slot /> <!-- Сюда попадет контент из файлов в папке pages -->
     </main>
 
-    <footer>
-      <!-- Тут можно добавить футер -->
-      <p>© 2026 Maid</p>
-    </footer>
+    <Footer />
   </body>
 </html>
 
