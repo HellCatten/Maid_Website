@@ -1,6 +1,6 @@
 {
-  "name": "Название вашего сайта",
-  "short_name": "Сайт",
+  "name": "MaidStation SS14",
+  "short_name": "Maid SS14",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
