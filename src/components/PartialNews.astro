@@ -1,0 +1,24 @@
+---
+// src/pages/partials/news/[page].astro
+export const partial = true; // Отключает оборачивание в <html> и <body>
+
+import NewsFeed from './NewsFeed.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const PAGE_SIZE = 5; // Размер пачки для скролла
+  const allNews = await getCollection('news');
+  const totalPages = Math.ceil(allNews.length / PAGE_SIZE);
+
+  const paths = [];
+  // Первая пачка уже на странице, генерируем со 2-й
+  for (let p = 2; p <= totalPages; p++) {
+    paths.push({ params: { page: String(p) } });
+  }
+  return paths;
+}
+
+const { page } = Astro.params;
+---
+
+<NewsFeed page={Number(page)} isPartial={true} />

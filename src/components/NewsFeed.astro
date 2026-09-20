@@ -2,15 +2,15 @@
 import { getCollection, render } from 'astro:content';
 import { NEWS_CHANNEL } from '../constants';
 
-// Принимаем опциональный параметр limit
 interface Props {
   limit?: number;
+  page?: number;
+  isPartial?: boolean;
 }
 
-const { limit } = Astro.props;
-
-// Базовая ссылка на канал новостей (без слэша на конце)
+const { limit, page, isPartial = false } = Astro.props;
 const DISCORD_CHANNEL_URL = NEWS_CHANNEL;
+const PAGE_SIZE = 5; // Количество новостей в одной порции
 
 const allNews = await getCollection('news');
 
@@ -21,17 +21,30 @@ const getDayKey = (dateStr: string | Date) => {
 const sortedNews = allNews.sort((a, b) => {
   const dayA = getDayKey(a.data.date);
   const dayB = getDayKey(b.data.date);
-
-  if (dayA !== dayB) {
-    return dayB.localeCompare(dayA);
-  }
-
+  if (dayA !== dayB) return dayB.localeCompare(dayA);
   return BigInt(a.data.id) > BigInt(b.data.id) ? 1 : -1;
 });
 
-// КРИТИЧЕСКИ ВАЖНО: обрезаем массив ДО рендеринга Markdown
-const targetNews = typeof limit === 'number' ? sortedNews.slice(0, limit) : sortedNews;
+// Логика выборки:
+let targetNews = sortedNews;
+let enableInfiniteScroll = false;
+let totalPages = 1;
 
+if (isPartial && page) {
+  // Для подгружаемого куска (скролл)
+  const start = (page - 1) * PAGE_SIZE;
+  targetNews = sortedNews.slice(start, start + PAGE_SIZE);
+} else if (typeof limit === 'number') {
+  // Для главной страницы с явным лимитом
+  targetNews = sortedNews.slice(0, limit);
+} else {
+  // Для страницы архива без limit: рендерим первую пачку и включаем скролл
+  totalPages = Math.ceil(sortedNews.length / PAGE_SIZE);
+  targetNews = sortedNews.slice(0, PAGE_SIZE);
+  enableInfiniteScroll = totalPages > 1;
+}
+
+// Рендерим Markdown ТОЛЬКО для отобранных новостей
 const newsWithContent = await Promise.all(
   targetNews.map(async (entry) => {
     const { Content } = await render(entry);
@@ -51,64 +64,173 @@ function formatDate(dateStr: string | Date) {
 }
 ---
 
-<div class="news-feed-container">
-  {newsWithContent.length === 0 ? (
-    <div class="empty-state">
-      <p>Новостей пока нет.</p>
-    </div>
-  ) : (
-    <div class="news-list">
-      {newsWithContent.map(({ entry, Content }) => (
-        <article class="news-card">
-          <header class="news-header">
-            <div class="meta-row">
-              <!-- Левая часть: автор -->
-              <div class="author-badge">
-                {entry.data.authorAvatar ? (
-                  <img 
-                    src={entry.data.authorAvatar} 
-                    alt={entry.data.author} 
-                    class="author-avatar"
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="author-avatar-placeholder" />
-                )}
-                <span class="author-name">{entry.data.author}</span>
-              </div>
-
-              <!-- Правая часть: дата и прямая ссылка на сообщение -->
-              <div class="meta-right">
-                <time datetime={new Date(entry.data.date).toISOString()} class="news-time">
-                  {formatDate(entry.data.date)}
-                </time>
-
-                <!-- Прямая ссылка на сообщение в Discord -->
-                <a 
-                  href={`${DISCORD_CHANNEL_URL}/${entry.data.id}`}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="discord-msg-link"
-                  title="Открыть это сообщение в Discord"
-                  aria-label="Открыть сообщение в Discord"
-                >
-                  <svg class="discord-mini-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                    <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.01c3.931 1.793 8.18 1.793 12.061 0a.075.075 0 0 1 .078.009c.12.098.246.195.373.288a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.89.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
-                  </svg>
-                  <span class="btn-text">Discord</span>
-                </a>
-              </div>
-            </div>
-          </header>
-
-          <div class="news-body">
-            <Content />
+{isPartial ? (
+  /* Если это кусок для скролла, отдаем только карточки новостей */
+  newsWithContent.map(({ entry, Content }) => (
+    <article class="news-card">
+      <header class="news-header">
+        <div class="meta-row">
+          <div class="author-badge">
+            {entry.data.authorAvatar ? (
+              <img 
+                src={entry.data.authorAvatar} 
+                alt={entry.data.author} 
+                class="author-avatar"
+                loading="lazy"
+                decoding="async"
+              />
+            ) : (
+              <div class="author-avatar-placeholder" />
+            )}
+            <span class="author-name">{entry.data.author}</span>
           </div>
-        </article>
-      ))}
-    </div>
-  )}
-</div>
+
+          <div class="meta-right">
+            <time datetime={new Date(entry.data.date).toISOString()} class="news-time">
+              {formatDate(entry.data.date)}
+            </time>
+
+            <a 
+              href={`${DISCORD_CHANNEL_URL}/${entry.data.id}`}
+              target="_blank" 
+              rel="noopener noreferrer"
+              class="discord-msg-link"
+              title="Открыть это сообщение в Discord"
+              aria-label="Открыть сообщение в Discord"
+            >
+              <svg class="discord-mini-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.01c3.931 1.793 8.18 1.793 12.061 0a.075.075 0 0 1 .078.009c.12.098.246.195.373.288a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.89.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+              </svg>
+              <span class="btn-text">Discord</span>
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <div class="news-body">
+        <Content />
+      </div>
+    </article>
+  ))
+) : (
+  /* Обычный рендер ленты */
+  <div class="news-feed-container">
+    {newsWithContent.length === 0 ? (
+      <div class="empty-state">
+        <p>Новостей пока нет.</p>
+      </div>
+    ) : (
+      <>
+        <div class="news-list" id="news-feed-list">
+          {newsWithContent.map(({ entry, Content }, index) => (
+            <article class="news-card">
+              <header class="news-header">
+                <div class="meta-row">
+                  <div class="author-badge">
+                    {entry.data.authorAvatar ? (
+                      <img 
+                        src={entry.data.authorAvatar} 
+                        alt={entry.data.author} 
+                        class="author-avatar"
+                        loading={index === 0 ? "eager" : "lazy"}
+                        decoding="async"
+                      />
+                    ) : (
+                      <div class="author-avatar-placeholder" />
+                    )}
+                    <span class="author-name">{entry.data.author}</span>
+                  </div>
+
+                  <div class="meta-right">
+                    <time datetime={new Date(entry.data.date).toISOString()} class="news-time">
+                      {formatDate(entry.data.date)}
+                    </time>
+
+                    <a 
+                      href={`${DISCORD_CHANNEL_URL}/${entry.data.id}`}
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      class="discord-msg-link"
+                      title="Открыть это сообщение в Discord"
+                    >
+                      <svg class="discord-mini-icon" viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.093.252-.19.372-.287a.075.075 0 0 1 .077-.01c3.931 1.793 8.18 1.793 12.061 0a.075.075 0 0 1 .078.009c.12.098.246.195.373.288a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.89.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+                      </svg>
+                      <span class="btn-text">Discord</span>
+                    </a>
+                  </div>
+                </div>
+              </header>
+
+              <div class="news-body">
+                <Content />
+              </div>
+            </article>
+          ))}
+        </div>
+
+        {enableInfiniteScroll && (
+          <div id="infinite-sentinel" data-total-pages={totalPages} class="scroll-sentinel">
+            <div class="scroll-loader" id="scroll-loader">
+              <span class="spinner"></span> Загрузка новостей...
+            </div>
+          </div>
+        )}
+      </>
+    )}
+  </div>
+)}
+
+{enableInfiniteScroll && (
+  <script>
+    function initInfiniteScroll() {
+      const sentinel = document.getElementById('infinite-sentinel');
+      const newsList = document.getElementById('news-feed-list');
+      const loader = document.getElementById('scroll-loader');
+      if (!sentinel || !newsList) return;
+
+      let nextPage = 2;
+      const totalPages = Number(sentinel.dataset.totalPages || '1');
+      let isLoading = false;
+
+      const observer = new IntersectionObserver(async (entries) => {
+        const [entry] = entries;
+        if (!entry.isIntersecting || isLoading || nextPage > totalPages) return;
+
+        isLoading = true;
+        if (loader) loader.style.display = 'flex';
+
+        try {
+          const res = await fetch(`/partials/news/${nextPage}/`);
+          if (!res.ok) throw new Error('Ошибка сети');
+
+          const html = await res.text();
+          newsList.insertAdjacentHTML('beforeend', html);
+
+          nextPage++;
+
+          if (nextPage > totalPages) {
+            observer.disconnect();
+            sentinel.remove();
+          }
+        } catch (err) {
+          console.error('Ошибка при подгрузке новостей:', err);
+        } finally {
+          isLoading = false;
+          if (loader) loader.style.display = 'none';
+        }
+      }, {
+        // Подгружает контент за 350px ДО того, как пользователь дойдет до дна
+        rootMargin: '350px',
+      });
+
+      observer.observe(sentinel);
+    }
+
+    initInfiniteScroll();
+    document.addEventListener('astro:page-load', initInfiniteScroll);
+  </script>
+)}
 
 <style>
   ul {
@@ -136,6 +258,9 @@ function formatDate(dateStr: string | Date) {
     color: #dbdee1;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     transition: transform 0.15s ease, border-color 0.15s ease;
+    /* Браузер не тратит ресурсы на пересчет макета вне экрана */
+    content-visibility: auto;
+    contain-intrinsic-size: 0 350px;
   }
 
   .news-card:hover {
@@ -168,7 +293,6 @@ function formatDate(dateStr: string | Date) {
     color: #949ba4;
   }
 
-  /* Аккуратная кнопка Discord в шапке */
   .discord-msg-link {
     display: inline-flex;
     align-items: center;
@@ -222,7 +346,6 @@ function formatDate(dateStr: string | Date) {
     color: #f2f3f5;
   }
 
-  /* Стили для тела новости и markdown */
   .news-body {
     line-height: 1.6;
     font-size: 0.95rem;
@@ -235,11 +358,7 @@ function formatDate(dateStr: string | Date) {
     white-space: pre-wrap;
   }
 
-  .news-body :global(ul) {
-    margin-left: 32px;
-  }
-
-  .news-body :global(ol) {
+  .news-body :global(ul), .news-body :global(ol) {
     margin-left: 32px;
   }
 
@@ -278,7 +397,36 @@ function formatDate(dateStr: string | Date) {
     border-radius: 12px;
   }
 
-  /* Адаптив для маленьких экранов */
+  /* Индикатор подгрузки */
+  .scroll-sentinel {
+    height: 60px;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .scroll-loader {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    color: #949ba4;
+    font-size: 0.95rem;
+  }
+
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(88, 101, 242, 0.25);
+    border-top-color: #5865f2;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
   @media (max-width: 480px) {
     .meta-row {
       flex-direction: column;
