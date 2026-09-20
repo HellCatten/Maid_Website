@@ -7,6 +7,10 @@ import NewsFeed from '../components/NewsFeed.astro';
 import { NEWS_CHANNEL, BOOSTY_URL, DISCORD_URL, GITHUB_URL } from '../constants.js';
 import SpaceBackground from '../components/SpaceBackground.astro';
 
+import frame1 from '../assets/1_compressed.webp';
+import frame2 from '../assets/2_compressed.webp';
+import frame3 from '../assets/3_compressed.webp';
+
 import fs from 'node:fs';
 import { load } from 'js-yaml';
 
@@ -54,11 +58,9 @@ try {
     <div class="hero-box" id="hero-box">
       <div>
         <div class="banner-wrapper">
-          <img 
-            src="/src/assets/banner.webp" 
-            alt="Maid Cafe Banner" 
-            class="banner-img"
-          />
+          <img src={frame1.src} alt="Maid Cafe Banner" class="frame frame-1" fetchpriority="high" />
+          <img src={frame2.src} alt="" class="frame frame-2" loading="eager" />
+          <img src={frame3.src} alt="" class="frame frame-3" loading="eager" />
         </div>
 
         <div class="hero-text-content">
@@ -226,16 +228,62 @@ try {
   }
 
   .banner-wrapper {
+    display: grid;
+    grid-template-areas: "banner-stack";
     /* Пропорция баннера (Ширина / Высота).*/
-    aspect-ratio: 2650 / 1034; 
+    aspect-ratio: 1325 / 517; 
     overflow: hidden;
   }
 
-  .banner-img {
+  .frame {
+    grid-area: banner-stack;
     width: 100%;
     height: auto;
-    display: block;
     object-fit: cover;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+    animation-timing-function: step-end; 
+  }
+  .frame-1 {
+    opacity: 1; /* Виден по умолчанию до старта CSS */
+    animation-name: animFrame1;
+  }
+
+  /* КАДР 2: Показывается на 2-м шаге (25-50%) */
+  .frame-2 {
+    opacity: 0;
+    animation-name: animFrame2;
+  }
+
+  /* КАДР 3: Показывается на 4-м шаге (75-100%) */
+  .frame-3 {
+    opacity: 0;
+    animation-name: animFrame3;
+  }
+
+  /* --- Ключевые кадры (таймлайн 0% - 100%) --- */
+
+  @keyframes animFrame1 {
+    0% { opacity: 1; }
+    25% { opacity: 0; }
+    50% { opacity: 0; }
+    75% { opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes animFrame2 {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    50% { opacity: 0; }
+    75% { opacity: 1}
+    100% { opacity: 0; }
+  }
+
+  @keyframes animFrame3 {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    75% {opacity: 0}
+    100% { opacity: 0; }
   }
 
   .hero-text-content {
