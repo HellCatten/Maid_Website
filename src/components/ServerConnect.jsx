@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './ServerConnect.module.css';
 import { HUB_URL, TARGET_ADDRESS } from '../constants.js';
 
-const STEAM_APP_URL = 'steam://run/987840';
+const STEAM_APP_URL = 'steam://run/1482520';
 
 // Преобразуем текстовый символ кометы в цветной эмодзи
 const formatServerName = (name) => {
