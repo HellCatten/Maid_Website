@@ -5,7 +5,7 @@ import SpaceBackground from '../../components/SpaceBackground.astro';
 import ServerConnect from '../../components/ServerConnect.jsx';
 
 const wikiModules = import.meta.glob('./*.astro', { eager: true });
-const iconFiles = import.meta.glob<{ default: ImageMetadata }>('/src/content/wiki/icons/*.png', { eager: true });
+const iconFiles = import.meta.glob<{ default: ImageMetadata }>('/public/wiki/icons/*.png', { eager: true });
 
 function getIconUrl(iconName: string): string {
   const match = Object.entries(iconFiles).find(([path]) => path.endsWith(iconName));
