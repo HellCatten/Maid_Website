@@ -8,5 +8,8 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://maidstation14.ru',
-  integrations: [react(), sitemap()]
+  integrations: [react(),
+    sitemap({
+      filter: (page) => !page.includes('/partials/'),
+    })]
 });
