@@ -171,7 +171,6 @@ try {
     const hero = document.getElementById('hero-box');
     const column = document.getElementById('components-column');
 
-    console.log('[Sync Layout] Поиск элементов:', { hero, column });
 
     if (!hero || !column) {
       console.warn('[Sync Layout] Элементы не найдены в DOM!');
@@ -181,7 +180,6 @@ try {
     if (window.innerWidth > 1024) {
       const heroHeight = hero.offsetHeight;
       column.style.height = heroHeight + 'px';
-      console.log(`[Sync Layout] Высота установлена: ${heroHeight}px`);
     } else {
       column.style.height = 'auto';
     }
