@@ -22,7 +22,7 @@ const isActive = (url: string) => {
       <div class="logo">
         <a href="/" class="logo-link">
           <img 
-            src="logo_yellow.svg"
+            src={logo.src}
             alt="Maid Logo" 
             class="logo-img"
             width="91"
@@ -105,7 +105,7 @@ const isActive = (url: string) => {
 
   .logo-link:hover {
     transform: scale(1.03);
-    filter: drop-shadow(0 0 10px rgba(255, 157, 66, 0.4));
+    filter: drop-shadow(0 0 10px var(--accent-color-bg));
   }
 
   .logo-img {
