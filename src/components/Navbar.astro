@@ -1,5 +1,5 @@
 ---
-import logo from '../assets/logo_yellow.webp';
+import logo from '/public/logo_yellow.svg';
 
 const links = [
   { name: 'Главная', url: '/' },
@@ -75,7 +75,6 @@ const isActive = (url: string) => {
     /* Стеклянный градиент с размытием звезд на фоне */
     background: var(--glass-effect-background-dark);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
 
     /* Неоновые границы: верхняя светящаяся, остальные приглушенные */
     border: 1px solid rgba(255, 157, 66, 0.3);
@@ -106,7 +105,7 @@ const isActive = (url: string) => {
 
   .logo-link:hover {
     transform: scale(1.03);
-    filter: drop-shadow(0 0 10px rgba(255, 157, 66, 0.4));
+    filter: drop-shadow(0 0 10px var(--accent-color-bg));
   }
 
   .logo-img {

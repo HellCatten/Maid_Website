@@ -90,14 +90,14 @@ const articles = Object.entries(wikiModules)
 
   <div class="wiki-container">
     <!-- Вводный блок об игре в стиле терминала станции -->
-    <header class="terminal-card">
+    <div class="terminal-card">
       <div class="terminal-header">
         <div class="terminal-controls">
           <span class="control red"></span>
           <span class="control yellow"></span>
           <span class="control green"></span>
         </div>
-        <div class="terminal-title">NT_OS // DATABASE_ARCHIVE // <h1>ВИКИ</h1></div>
+        <div class="terminal-title">NT_OS //  <h1>ВИКИ</h1></div>
         <div class="terminal-badge">ONLINE</div>
       </div>
 
@@ -117,10 +117,10 @@ const articles = Object.entries(wikiModules)
           <span>Добро пожаловать в команду, космонавт!</span>
         </div>
       </div>
-    </header>
+    </div>
 
     <!-- Сетка статей -->
-    <main class="wiki-grid-section">
+    <div class="wiki-grid-section">
       <div class="section-title-bar">
         <h2>Разделы документации</h2>
         <span class="articles-count">Файлов: {articles.length}</span>
@@ -155,7 +155,7 @@ const articles = Object.entries(wikiModules)
           </a>
         ))}
       </div>
-    </main>
+    </div>
   </div>
 </BaseLayout>
 
@@ -377,6 +377,16 @@ const articles = Object.entries(wikiModules)
   .wiki-card:hover .card-arrow {
     color: #ff9d42;
     transform: translateX(4px);
+  }
+
+  @media (max-width: 800px) {
+    .wiki-container {
+      padding: 0;
+    }
+    .briefing-welcome {
+      margin-top: 1rem;
+    }
+    
   }
 
   @media (max-width: 768px) {

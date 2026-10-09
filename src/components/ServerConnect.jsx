@@ -18,6 +18,7 @@ export default function ServerConnect() {
   const [copied, setCopied] = useState(false);
 
   const serverIp = TARGET_ADDRESS || 'maidstation.ru';
+  const shortServerIp = serverIp.replace(/^[^:]+:\/\//, "");
 
   // Копирование IP адреса
   const handleCopy = async () => {
@@ -142,7 +143,7 @@ export default function ServerConnect() {
         >
           <div className={styles.ipInfoGroup}>
             <span className={styles.ipProtocol}>ADDRESS :</span>
-            <span className={styles.ipAddressText}>{serverIp}</span>
+            <span className={styles.ipAddressText}>{shortServerIp}</span>
           </div>
 
           <div className={styles.copyBadge}>
