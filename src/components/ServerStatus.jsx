@@ -9,6 +9,7 @@ export default function ServerStatus() {
   const [copied, setCopied] = useState(false);
 
   const serverIp = TARGET_ADDRESS || 'maidstation.ru';
+  const shortServerIp = serverIp.replace(/^[^:]+:\/\//, "");
 
   const handleCopy = async () => {
     try {
@@ -90,7 +91,7 @@ export default function ServerStatus() {
         title="Нажмите, чтобы скопировать"
       >
         <span className={styles.serverAddress}>
-          {copied ? 'Скопировано' : serverIp}
+          {copied ? 'Скопировано' : shortServerIp}
         </span>
         <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" strokeWidth="2" className={styles.copyIcon}>
           {copied ? (
