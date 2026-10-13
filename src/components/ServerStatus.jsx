@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './ServerStatus.module.css';
 import { HUB_URL, TARGET_ADDRESS } from '../constants.js';
 
-export default function ServerStatus() {
+export default function ServerStatus({ position = 'default'}) {
   const [serverData, setServerData] = useState(null);
   const [isError, setIsError] = useState(false);
   const [now, setNow] = useState(Date.now());
@@ -25,6 +25,21 @@ export default function ServerStatus() {
       }
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+
+      // ==========================================
+      // ТРЕКИНГ UMAMI: Событие копирования IP
+      // ==========================================
+      if (typeof window !== 'undefined' && window.umami) {
+        window.umami.track('Copy Server IP', {
+          server_ip: shortServerIp,
+          position: position || window.location.pathname,
+          // Передаем статус, если данные уже загружены:
+          online_players: serverData?.players ?? 'unknown',
+          round_status: serverData?.run_level === 1 ? 'in_round' : 'in_lobby',
+          is_server_error: isError
+        });
+      }
+
     } catch (err) {
       console.error('Ошибка при копировании:', err);
     }
