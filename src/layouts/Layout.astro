@@ -46,7 +46,9 @@ const schemaData = {
     <!-- Векторная адаптивная фавиконка для современных браузеров -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 
-    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
 
     <!-- Для экранов Apple (iPhone / iPad) -->
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
@@ -80,7 +82,7 @@ const schemaData = {
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={imageURL} />
-
+    <script defer src="https://api.maidstation14.ru/script.js" data-website-id="4e6c703d-050f-4885-87b5-884d74bccd7b"></script>
     <!-- Микроразметка Schema.org -->
     <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
   </head>

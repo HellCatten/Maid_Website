@@ -10,7 +10,7 @@ const formatServerName = (name) => {
   return name.replace(/\u2604[\uFE0E\uFE0F]?/g, '☄️');
 };
 
-export default function ServerConnect() {
+export default function ServerConnect({ position = 'default'}) {
   const [serverData, setServerData] = useState(null);
   const [serverName, setServerName] = useState(formatServerName('[RU][16+][TTS] Maid ☄️'));
   const [isError, setIsError] = useState(false);
@@ -35,6 +35,21 @@ export default function ServerConnect() {
       }
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+
+      // ==========================================
+      // ТРЕКИНГ UMAMI: Событие копирования IP
+      // ==========================================
+      if (typeof window !== 'undefined' && window.umami) {
+        window.umami.track('Copy Server IP', {
+          server_ip: shortServerIp,
+          position: position || window.location.pathname,
+          // Передаем статус, если данные уже загружены:
+          online_players: serverData?.players ?? 'unknown',
+          round_status: serverData?.run_level === 1 ? 'in_round' : 'in_lobby',
+          is_server_error: isError
+        });
+      }
+
     } catch (err) {
       console.error('Ошибка копирования:', err);
     }
@@ -125,6 +140,7 @@ export default function ServerConnect() {
             href={STEAM_APP_URL}
             className={styles.connectBtn}
             title="Запустить Space Station 14 в Steam"
+            data-umami-event="Open Steam"
           >
             Подключиться
           </a>
