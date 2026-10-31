@@ -9,9 +9,10 @@ const DISCORD_CHANNEL_URL = "https://discord.com/channels/1409217817097535598/15
 <BaseLayout
   title="Новости"
   description="Новости сообщества Maid скопированные из Discord."
+  pageType='page'
   >
   <SpaceBackground />
-  <div class="archive-page">
+  <main class="archive-page">
     <header class="archive-header">
       <div class="top-nav">
         <a href="/" class="back-link">
@@ -46,7 +47,7 @@ const DISCORD_CHANNEL_URL = "https://discord.com/channels/1409217817097535598/15
     <div class="archive-content">
       <NewsFeed />
     </div>
-  </div>
+  </main>
 </BaseLayout>
 
 <style>

@@ -90,10 +90,11 @@ const articles = Object.entries(wikiModules)
 <BaseLayout
   title="Вики SS14"
   description="Вики для игры на сервере Maid игры Space Station 14. Смотрите правила сервера, космический закон и другие статьи нашего сообщества."
+  pageType="page"
   >
   <SpaceBackground />
 
-  <div class="wiki-container">
+  <main class="wiki-container">
     <!-- Вводный блок об игре в стиле терминала станции -->
     <div class="terminal-card">
       <div class="terminal-header">
@@ -102,7 +103,7 @@ const articles = Object.entries(wikiModules)
           <span class="control yellow"></span>
           <span class="control green"></span>
         </div>
-        <div class="terminal-title">NT_OS //  <h1>ВИКИ</h1></div>
+        <div class="terminal-title">NT_OS //  <h1>Вики</h1></div>
         <div class="terminal-badge">ONLINE</div>
       </div>
 
@@ -161,7 +162,7 @@ const articles = Object.entries(wikiModules)
         ))}
       </div>
     </div>
-  </div>
+  </main>
 </BaseLayout>
 
 <style>
