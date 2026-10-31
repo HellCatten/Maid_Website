@@ -8,31 +8,79 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
-  type?: 'website' | 'article';
+  /**
+   * 'website' - главная страница
+   * 'page'    - служебные страницы, списки, правила, хаб вики (/wiki, /news, /rules)
+   * 'article' - статьи вики, гайды, отдельные новости
+   */
+  pageType?: 'website' | 'page' | 'article';
+  publishDate?: Date | string; // Полезно передавать для новостей и статей
 }
 
 const {
-  title = "Maid — Ламповый сервер Space Station 14",
-  description = "Maid Station — ролевой сервер Space Station 14 с динамичными сменами, отзывчивой администрацией и ламповым коммьюнити. Присоединяйтесь к нам!",
-  image = "/og-banner.png", // Картинка для превью в Discord/TG (1200x630 в папке public)
-  type = "website"
+  title = "Maid — Сервер Space Station 14",
+  description = "Maid Station — ролевой сервер Space Station 14 с динамичными сменами и отзывчивой администрацией.",
+  image = "/og-banner.png",
+  pageType = "page",
+  publishDate
 } = Astro.props;
 
-// Автоматически формируем абсолютный канонический URL текущей страницы
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://maidstation.ru');
-const imageURL = new URL(image, Astro.site || 'https://maidstation.ru');
+const siteUrl = Astro.site ? Astro.site.origin : 'https://maidstation.ru';
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const imageURL = new URL(image, siteUrl);
 
-// Склеиваем красивый тег <title> (например: "Вики | Maid SS14")
-const fullTitle = title.includes('Maid') ? title : `${title} | Maid SS14`;
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
 
-// JSON-LD микроразметка для Google и Яндекса
-const schemaData = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Maid Station SS14",
-  "url": "https://maidstation.ru",
-  "description": description
-};
+// Формируем <title>
+const fullTitle = isHome 
+  ? title 
+  : (title.includes('Maid') ? title : `${title} — Maid SS14`);
+
+// Генерация Schema.org в зависимости от типа
+let schemaData: Record<string, any>;
+
+if (isHome || pageType === 'website') {
+  // 1. Главная страница сайта
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Maid Station SS14",
+    "alternateName": "Сервер Maid SpaceStation14",
+    "url": siteUrl,
+    "description": description
+  };
+} else if (pageType === 'article') {
+  // 2. Статья вики, гайд, отдельная новость
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": canonicalURL.href
+    },
+    "headline": title,
+    "description": description,
+    "image": imageURL.href,
+    "datePublished": publishDate ? new Date(publishDate).toISOString() : undefined,
+    "publisher": {
+      "@type": "Organization",
+      "name": "Maid Station SS14",
+      "url": siteUrl
+    }
+  };
+} else {
+  // 3. Обычная страница (хаб вики, хаб новостей, правила и т.д.)
+  schemaData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": fullTitle,
+    "url": canonicalURL.href,
+    "description": description
+  };
+}
+
+// Для Open Graph: там валидны только 'website' и 'article'
+const ogType = pageType === 'article' ? 'article' : 'website';
 ---
 
 <!DOCTYPE html>
@@ -68,7 +116,7 @@ const schemaData = {
     <meta name="robots" content="index, follow" />
 
     <!-- Open Graph / Discord / Telegram / VK / Facebook -->
-    <meta property="og:type" content={type} />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
@@ -89,9 +137,9 @@ const schemaData = {
   <body>
     <Navbar /> <!-- Навбар будет на всех страницах, использующих этот Layout -->
     
-    <main class="container">
+    <div class="container">
       <slot /> <!-- Сюда попадет контент из файлов в папке pages -->
-    </main>
+    </div>
 
     <Footer />
   </body>

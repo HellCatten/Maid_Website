@@ -47,12 +47,13 @@ try {
 ---
 
 <BaseLayout
-  title="Главная"
+  title="Портал сервера Maid в игре SpaceStation 14"
   description="Официальный портал сервера Maid в игре Space Station 14. Смотрите онлайн сервера, последние обновления, новости сообщества и вики."
+  pageType="website"
   >
   <SpaceBackground />
   <!-- Главный блок: Левая колонка (контент) + Правая колонка (компоненты) -->
-  <div class="main-grid">
+  <main class="main-grid">
     
     <!-- Левая колонка: Баннер, инфо, социальные кнопки -->
     <div class="hero-box" id="hero-box">
@@ -131,7 +132,7 @@ try {
       <Changelog initialEntries={initialEntries} client:load />
     </div>
     
-  </div>
+  </main>
   
   <!-- Секция свежих новостей -->
   <section class="home-news-section">
